@@ -1,9 +1,11 @@
+
 import type { Product } from '@/lib/types';
 import Image from 'next/image';
+import Link from 'next/link'; // Import Link
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Send } from 'lucide-react'; // Send icon might be suitable for contact link
 
 interface ProductCardProps {
   product: Product;
@@ -15,9 +17,9 @@ export default function ProductCard({ product }: ProductCardProps) {
     : product.price;
 
   return (
-    <Card className="overflow-hidden transition-all hover:shadow-lg hover:scale-[1.02] duration-300 ease-in-out relative flex flex-col h-full">
+    <Card className="overflow-hidden transition-all hover:shadow-xl hover:scale-[1.03] duration-300 ease-in-out relative flex flex-col h-full animate-in fade-in zoom-in-95">
        {product.soldOut && (
-        <Badge variant="destructive" className="absolute top-2 right-2 z-10">Sold Out</Badge>
+        <Badge variant="destructive" className="absolute top-2 right-2 z-10 animate-pulse">Sold Out</Badge>
       )}
        {product.discount && !product.soldOut && (
         <Badge variant="secondary" className="absolute top-2 left-2 z-10 bg-accent text-accent-foreground">{product.discount}% OFF</Badge>
@@ -27,9 +29,8 @@ export default function ProductCard({ product }: ProductCardProps) {
           src={product.imageUrl}
           alt={product.title}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover"
-          priority={false} // Set priority based on importance or make it dynamic
+          sizes="(max-width: 640px) 90vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" // Group hover effect example
         />
       </CardHeader>
       <CardContent className="p-4 flex-grow">
@@ -47,10 +48,18 @@ export default function ProductCard({ product }: ProductCardProps) {
             </span>
           )}
         </div>
-         {/* Since this is a display page, the button might link to contact or be disabled */}
-        <Button size="sm" variant="outline" disabled={product.soldOut} aria-label={`View ${product.title}`}>
-          <ShoppingCart className="mr-2 h-4 w-4" /> View
-        </Button>
+         {/* Link to contact page if not sold out, otherwise show disabled button */}
+        {product.soldOut ? (
+          <Button size="sm" variant="outline" disabled aria-label={`Sold out - ${product.title}`}>
+             Sold Out
+          </Button>
+        ) : (
+          <Button size="sm" variant="outline" asChild aria-label={`Inquire about ${product.title}`}>
+            <Link href="/contact">
+              <Send className="mr-2 h-4 w-4" /> Inquire
+            </Link>
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

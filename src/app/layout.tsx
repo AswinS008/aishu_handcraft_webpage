@@ -1,11 +1,17 @@
-import type {Metadata} from 'next';
-import { Inter } from 'next/font/google'; // Using Inter as a clean default
+
+import type { Metadata } from 'next';
+import { Poppins } from 'next/font/google'; // Import Poppins font
 import './globals.css';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Toaster } from "@/components/ui/toaster"; // Import Toaster
+import { Toaster } from "@/components/ui/toaster";
+import { Suspense } from 'react'; // Import Suspense for Header search state
 
-const inter = Inter({ subsets: ['latin'] });
+// Configure Poppins font
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'], // Include desired weights
+});
 
 export const metadata: Metadata = {
   title: 'GirlyCrafts Showcase',
@@ -19,12 +25,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased flex flex-col min-h-screen bg-background`}>
-        <Header />
+      {/* Apply Poppins font class to body */}
+      <body className={`${poppins.className} antialiased flex flex-col min-h-screen bg-background`}>
+        {/* Wrap Header in Suspense if it needs to read searchParams directly */}
+        <Suspense>
+         <Header />
+        </Suspense>
         <main className="flex-grow container max-w-screen-2xl py-8">
           {children}
         </main>
-        <Toaster /> {/* Add Toaster component */}
+        <Toaster />
         <Footer />
       </body>
     </html>

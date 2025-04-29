@@ -1,9 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', sans-serif; /* Example: Use a slightly more modern/playful font */
+  @apply antialiased; /* Smoother font rendering */
 }
 
 @layer base {
@@ -86,4 +89,53 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Add custom animations */
+@layer utilities {
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideInFromTop {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+   @keyframes slideInFromLeft {
+    from { transform: translateX(-20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+   @keyframes slideInFromRight {
+    from { transform: translateX(20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+   @keyframes zoomIn {
+     from { transform: scale(0.95); opacity: 0; }
+     to { transform: scale(1); opacity: 1; }
+   }
+
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  .animate-slide-in-top {
+    animation: slideInFromTop 0.5s ease-out forwards;
+  }
+   .animate-slide-in-left {
+    animation: slideInFromLeft 0.5s ease-out forwards;
+  }
+   .animate-slide-in-right {
+    animation: slideInFromRight 0.5s ease-out forwards;
+  }
+   .animate-zoom-in {
+     animation: zoomIn 0.3s ease-out forwards;
+   }
+
+  /* Combine animations with tailwind animate-in */
+   .animate-in.fade-in { animation-name: fadeIn; }
+   .animate-in.slide-in-from-top { animation-name: slideInFromTop; }
+   .animate-in.slide-in-from-left { animation-name: slideInFromLeft; }
+   .animate-in.slide-in-from-right { animation-name: slideInFromRight; }
+   .animate-in.zoom-in-95 { animation-name: zoomIn; } /* Example override */
+
 }

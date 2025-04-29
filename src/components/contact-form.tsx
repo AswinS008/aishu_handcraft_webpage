@@ -1,3 +1,4 @@
+
 'use client';
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,6 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { Send } from "lucide-react";
 import { useState } from 'react';
+import { motion } from 'framer-motion'; // Import framer-motion
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -53,18 +55,22 @@ export default function ContactForm() {
     toast({
       title: "Message Sent!",
       description: "Thank you for contacting us. We'll get back to you soon.",
+      variant: "default", // Or 'success' if you have a success variant
     });
     form.reset(); // Reset form after successful submission
     setIsSubmitting(false);
   }
 
   return (
-    <Card className="w-full max-w-lg mx-auto shadow-lg">
+    <Card className="w-full max-w-lg mx-auto shadow-lg border-primary/20 h-full flex flex-col">
       <CardHeader>
-        <CardTitle>Get in Touch</CardTitle>
-        <CardDescription>Have a question or a custom request? Send us a message!</CardDescription>
+        <CardTitle className="text-2xl text-primary flex items-center gap-2">
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-message-circle-question"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+          Contact Enquiry
+          </CardTitle>
+        {/* Optional: Remove description if details are enough <CardDescription>Have a question or a custom request? Send us a message!</CardDescription> */}
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-grow">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -74,7 +80,12 @@ export default function ContactForm() {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your Name" {...field} aria-required="true" />
+                    <Input
+                      placeholder="Your Name"
+                      {...field}
+                      aria-required="true"
+                      className="bg-secondary/50 focus:bg-background" // Subtle background
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -87,7 +98,13 @@ export default function ContactForm() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="your.email@example.com" {...field} aria-required="true" />
+                    <Input
+                      type="email"
+                      placeholder="your.email@example.com"
+                      {...field}
+                      aria-required="true"
+                      className="bg-secondary/50 focus:bg-background"
+                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -102,7 +119,7 @@ export default function ContactForm() {
                   <FormControl>
                     <Textarea
                       placeholder="Type your message here..."
-                      className="min-h-[120px]"
+                      className="min-h-[120px] bg-secondary/50 focus:bg-background"
                       {...field}
                       aria-required="true"
                     />
@@ -111,10 +128,15 @@ export default function ContactForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground" disabled={isSubmitting}>
-              <Send className="mr-2 h-4 w-4" />
-              {isSubmitting ? 'Sending...' : 'Send Message'}
-            </Button>
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground" disabled={isSubmitting}>
+                <Send className="mr-2 h-4 w-4" />
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+              </Button>
+             </motion.div>
           </form>
         </Form>
       </CardContent>
