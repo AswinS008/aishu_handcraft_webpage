@@ -15,16 +15,17 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+// Removed Card imports as layout is handled by the page
 import { useToast } from "@/hooks/use-toast";
 import { Send } from "lucide-react";
 import { useState } from 'react';
-import { motion } from 'framer-motion'; // Import framer-motion
+import { motion } from 'framer-motion';
 
 const formSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }).max(100), // Added max length
   email: z.string().email({ message: "Please enter a valid email address." }),
-  message: z.string().min(10, { message: "Message must be at least 10 characters." }).max(500, { message: "Message cannot exceed 500 characters." }),
+  subject: z.string().min(5, { message: "Subject must be at least 5 characters." }).max(150), // Added Subject field
+  message: z.string().min(10, { message: "Message must be at least 10 characters." }).max(1000, { message: "Message cannot exceed 1000 characters." }), // Increased max length
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -38,6 +39,7 @@ export default function ContactForm() {
     defaultValues: {
       name: "",
       email: "",
+      subject: "", // Default value for subject
       message: "",
     },
   });
@@ -51,95 +53,109 @@ export default function ContactForm() {
     await new Promise(resolve => setTimeout(resolve, 1500));
 
     // In a real app, you would send this data to a server/API endpoint
-    // For now, just show a success message
     toast({
-      title: "Message Sent!",
-      description: "Thank you for contacting us. We'll get back to you soon.",
-      variant: "default", // Or 'success' if you have a success variant
+      title: "Message Sent Successfully!",
+      description: "Thank you for reaching out. We'll get back to you as soon as possible.",
+      variant: "default",
     });
     form.reset(); // Reset form after successful submission
     setIsSubmitting(false);
   }
 
   return (
-    <Card className="w-full max-w-lg mx-auto shadow-lg border-primary/20 h-full flex flex-col">
-      <CardHeader>
-        <CardTitle className="text-2xl text-primary flex items-center gap-2">
-           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-message-circle-question"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
-          Contact Enquiry
-          </CardTitle>
-        {/* Optional: Remove description if details are enough <CardDescription>Have a question or a custom request? Send us a message!</CardDescription> */}
-      </CardHeader>
-      <CardContent className="flex-grow">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Your Name"
-                      {...field}
-                      aria-required="true"
-                      className="bg-secondary/50 focus:bg-background" // Subtle background
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="your.email@example.com"
-                      {...field}
-                      aria-required="true"
-                      className="bg-secondary/50 focus:bg-background"
+    // Removed the Card wrapper. Styling/layout now controlled by the parent page.
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+             <FormField
+               control={form.control}
+               name="name"
+               render={({ field }) => (
+                 <FormItem>
+                   <FormLabel className="text-sm font-medium">Your Name</FormLabel>
+                   <FormControl>
+                     <Input
+                       placeholder="Enter your name"
+                       {...field}
+                       aria-required="true"
+                       className="bg-secondary/50 focus:bg-background h-11 text-sm" // Style like ShionHouse
                      />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Message</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Type your message here..."
-                      className="min-h-[120px] bg-secondary/50 focus:bg-background"
-                      {...field}
-                      aria-required="true"
+                   </FormControl>
+                   <FormMessage />
+                 </FormItem>
+               )}
+             />
+             <FormField
+               control={form.control}
+               name="email"
+               render={({ field }) => (
+                 <FormItem>
+                   <FormLabel className="text-sm font-medium">Your Email</FormLabel>
+                   <FormControl>
+                     <Input
+                       type="email"
+                       placeholder="Enter your email address"
+                       {...field}
+                       aria-required="true"
+                       className="bg-secondary/50 focus:bg-background h-11 text-sm"
+                      />
+                   </FormControl>
+                   <FormMessage />
+                 </FormItem>
+               )}
+             />
+          </div>
+          <FormField
+             control={form.control}
+             name="subject"
+             render={({ field }) => (
+               <FormItem>
+                 <FormLabel className="text-sm font-medium">Subject</FormLabel>
+                 <FormControl>
+                   <Input
+                     placeholder="What is your message about?"
+                     {...field}
+                     aria-required="true"
+                     className="bg-secondary/50 focus:bg-background h-11 text-sm"
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground" disabled={isSubmitting}>
-                <Send className="mr-2 h-4 w-4" />
-                {isSubmitting ? 'Sending...' : 'Send Message'}
-              </Button>
-             </motion.div>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+                 </FormControl>
+                 <FormMessage />
+               </FormItem>
+             )}
+           />
+        <FormField
+          control={form.control}
+          name="message"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-sm font-medium">Message</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Write your message here..."
+                  className="min-h-[150px] bg-secondary/50 focus:bg-background text-sm" // Style like ShionHouse
+                  {...field}
+                  aria-required="true"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <motion.div
+           whileHover={{ scale: 1.03 }} // Subtle hover effect
+           whileTap={{ scale: 0.97 }}   // Subtle tap effect
+        >
+          <Button
+             type="submit"
+             className="w-full md:w-auto px-8 py-3 h-auto bg-accent hover:bg-accent/90 text-accent-foreground rounded-full text-base font-semibold transition-transform duration-200 ease-in-out" // ShionHouse button style
+             disabled={isSubmitting}
+          >
+            <Send className="mr-2 h-4 w-4" />
+            {isSubmitting ? 'Sending...' : 'Send Message'}
+          </Button>
+         </motion.div>
+      </form>
+    </Form>
   );
 }
+```

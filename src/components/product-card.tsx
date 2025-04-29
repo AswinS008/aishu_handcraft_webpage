@@ -1,11 +1,11 @@
 
 import type { Product } from '@/lib/types';
 import Image from 'next/image';
-import Link from 'next/link'; // Import Link
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
+import { Card, CardContent, CardFooter } from '@/components/ui/card'; // Removed Header/Title imports
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart, Send } from 'lucide-react'; // Send icon might be suitable for contact link
+import { ShoppingCart, Send, Eye, Heart } from 'lucide-react'; // Added Eye and Heart icons
 
 interface ProductCardProps {
   product: Product;
@@ -17,29 +17,64 @@ export default function ProductCard({ product }: ProductCardProps) {
     : product.price;
 
   return (
-    <Card className="overflow-hidden transition-all hover:shadow-xl hover:scale-[1.03] duration-300 ease-in-out relative flex flex-col h-full animate-in fade-in zoom-in-95">
-       {product.soldOut && (
-        <Badge variant="destructive" className="absolute top-2 right-2 z-10 animate-pulse">Sold Out</Badge>
-      )}
-       {product.discount && !product.soldOut && (
-        <Badge variant="secondary" className="absolute top-2 left-2 z-10 bg-accent text-accent-foreground">{product.discount}% OFF</Badge>
-      )}
-      <CardHeader className="p-0 relative aspect-square">
+    <Card className="group relative flex flex-col h-full w-full overflow-hidden border-none shadow-none rounded-none bg-transparent transition-all duration-300 ease-in-out">
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-secondary"> {/* Aspect ratio like ShionHouse */}
         <Image
           src={product.imageUrl}
           alt={product.title}
           fill
-          sizes="(max-width: 640px) 90vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" // Group hover effect example
+          sizes="(max-width: 640px) 90vw, (max-width: 768px) 45vw, (max-width: 1024px) 30vw, 23vw"
+          className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
         />
-      </CardHeader>
-      <CardContent className="p-4 flex-grow">
-        <CardTitle className="text-lg font-semibold mb-1 line-clamp-1">{product.title}</CardTitle>
-        <p className="text-sm text-muted-foreground line-clamp-2">{product.description}</p>
-      </CardContent>
-      <CardFooter className="p-4 pt-0 mt-auto flex justify-between items-center">
-        <div className="flex items-baseline gap-2">
-          <span className={`text-lg font-bold ${product.discount ? 'text-accent' : 'text-primary'}`}>
+        {/* Badges */}
+        <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
+           {product.soldOut && (
+             <Badge variant="destructive" className="px-2 py-0.5 text-xs animate-pulse">Sold Out</Badge>
+           )}
+           {product.discount && !product.soldOut && (
+             <Badge variant="secondary" className="px-2 py-0.5 text-xs bg-accent text-accent-foreground">{product.discount}% OFF</Badge>
+           )}
+            {/* Example New/Hot Badge */}
+            {/* {product.isNew && <Badge variant="default" className="px-2 py-0.5 text-xs">New</Badge>} */}
+        </div>
+
+         {/* Hover Actions - Appear on hover */}
+         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-center gap-2">
+             <Button size="icon" variant="secondary" className="rounded-full h-10 w-10 bg-background/80 backdrop-blur-sm hover:bg-primary hover:text-primary-foreground transition-colors">
+                 <Heart className="h-5 w-5" />
+             </Button>
+             {/* Inquiry Button or Add to Cart */}
+             {product.soldOut ? (
+                 <Button size="icon" variant="secondary" disabled className="rounded-full h-10 w-10 bg-background/80 backdrop-blur-sm cursor-not-allowed">
+                     <ShoppingCart className="h-5 w-5" />
+                 </Button>
+             ) : (
+                  <Button size="icon" variant="secondary" asChild className="rounded-full h-10 w-10 bg-background/80 backdrop-blur-sm hover:bg-primary hover:text-primary-foreground transition-colors">
+                     <Link href="/contact">
+                        <Send className="h-5 w-5" />
+                      </Link>
+                  </Button>
+             )}
+             <Button size="icon" variant="secondary" className="rounded-full h-10 w-10 bg-background/80 backdrop-blur-sm hover:bg-primary hover:text-primary-foreground transition-colors">
+                 <Eye className="h-5 w-5" />
+             </Button>
+         </div>
+
+      </div>
+
+      <CardContent className="p-4 pb-2 text-center flex-grow">
+        {/* Category Link (Optional) */}
+        {/* <Link href={`/?category=${encodeURIComponent(product.category)}`} className="text-xs text-muted-foreground hover:text-primary uppercase tracking-wide block mb-1">{product.category}</Link> */}
+        <h3 className="text-base font-medium mb-1 text-foreground line-clamp-1">
+          {/* Make title a link to product page if you have one */}
+          {/* <Link href={`/product/${product.id}`} className="hover:text-primary transition-colors"> */}
+            {product.title}
+          {/* </Link> */}
+        </h3>
+        {/* Star Rating Placeholder */}
+        {/* <div className="flex justify-center items-center gap-0.5 text-amber-400 mb-2">★★★★☆</div> */}
+        <div className="flex justify-center items-baseline gap-2">
+          <span className={`text-md font-semibold ${product.discount ? 'text-accent' : 'text-primary'}`}>
             ${displayPrice.toFixed(2)}
           </span>
           {product.discount && (
@@ -48,19 +83,18 @@ export default function ProductCard({ product }: ProductCardProps) {
             </span>
           )}
         </div>
-         {/* Link to contact page if not sold out, otherwise show disabled button */}
-        {product.soldOut ? (
-          <Button size="sm" variant="outline" disabled aria-label={`Sold out - ${product.title}`}>
-             Sold Out
-          </Button>
-        ) : (
-          <Button size="sm" variant="outline" asChild aria-label={`Inquire about ${product.title}`}>
-            <Link href="/contact">
-              <Send className="mr-2 h-4 w-4" /> Inquire
-            </Link>
-          </Button>
-        )}
-      </CardFooter>
+      </CardContent>
+        {/* Optional: Explicit Add to Cart button outside hover for mobile / always visible */}
+      {/* <CardFooter className="p-4 pt-0 mt-auto">
+          {product.soldOut ? (
+             <Button size="sm" variant="outline" disabled className="w-full">Sold Out</Button>
+           ) : (
+             <Button size="sm" variant="default" className="w-full bg-primary hover:bg-primary/90">
+               <ShoppingCart className="mr-2 h-4 w-4" /> Add To Cart
+             </Button>
+           )}
+       </CardFooter> */}
     </Card>
   );
 }
+```

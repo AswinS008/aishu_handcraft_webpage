@@ -1,16 +1,15 @@
 
 import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google'; // Import Poppins font
+import { Poppins } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Toaster } from "@/components/ui/toaster";
-import { Suspense } from 'react'; // Import Suspense for Header search state
+import { Suspense } from 'react'; // Keep Suspense import
 
-// Configure Poppins font
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'], // Include desired weights
+  weight: ['300', '400', '500', '600', '700'],
 });
 
 export const metadata: Metadata = {
@@ -25,13 +24,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* Apply Poppins font class to body */}
-      <body className={`${poppins.className} antialiased flex flex-col min-h-screen bg-background`}>
-        {/* Wrap Header in Suspense if it needs to read searchParams directly */}
-        <Suspense>
-         <Header />
-        </Suspense>
-        <main className="flex-grow container max-w-screen-2xl py-8">
+      <body className={`${poppins.className} antialiased flex flex-col min-h-screen bg-background text-foreground`}>
+        {/* Header is now a Client Component, no Suspense needed here unless a parent Server Component passes searchParams */}
+        <Header />
+        {/* Adjusted main padding to match ShionHouse style - Removed container/max-width here, applied in pages/components */}
+        <main className="flex-grow py-8 md:py-12">
           {children}
         </main>
         <Toaster />

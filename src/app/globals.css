@@ -1,16 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Ensure @import is at the very top */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap'); /* Added Montserrat */
+
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: 'Poppins', sans-serif; /* Example: Use a slightly more modern/playful font */
-  @apply antialiased; /* Smoother font rendering */
-}
-
+/* Apply base styles */
 @layer base {
   :root {
+     /* Keep your existing color theme or adjust to better match ShionHouse if needed */
     --background: 60 56% 91%; /* Light Beige */
     --foreground: 60 10% 20%; /* Dark contrasting color */
     --card: 60 56% 93%; /* Slightly lighter Beige */
@@ -35,18 +35,21 @@ body {
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --radius: 0.5rem; /* Adjust border radius if needed */
+
+     /* Dark Theme (Optional - adjust if needed) */
+     --sidebar-background: 0 0% 98%;
+     --sidebar-foreground: 240 5.3% 26.1%;
+     --sidebar-primary: 240 5.9% 10%;
+     --sidebar-primary-foreground: 0 0% 98%;
+     --sidebar-accent: 240 4.8% 95.9%;
+     --sidebar-accent-foreground: 240 5.9% 10%;
+     --sidebar-border: 220 13% 91%;
+     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
+    /* Define dark mode variables if you intend to use it */
     --background: 30 10% 15%; /* Dark Gray/Brown */
     --foreground: 60 56% 91%; /* Light Beige */
     --card: 30 10% 18%;
@@ -80,62 +83,56 @@ body {
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased; /* Changed default font */
+     font-family: 'Montserrat', 'Poppins', sans-serif; /* Prioritize Montserrat */
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+     font-family: 'Poppins', 'Montserrat', sans-serif; /* Use Poppins for headings */
+     @apply font-semibold text-foreground; /* Default heading style */
   }
 }
 
-/* Add custom animations */
+/* Add custom animations & utilities */
 @layer utilities {
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  @keyframes slideInFromTop {
-    from { transform: translateY(-20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-   @keyframes slideInFromLeft {
-    from { transform: translateX(-20px); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-  }
-   @keyframes slideInFromRight {
-    from { transform: translateX(20px); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-  }
-   @keyframes zoomIn {
-     from { transform: scale(0.95); opacity: 0; }
-     to { transform: scale(1); opacity: 1; }
+   /* Existing Animations */
+   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+   @keyframes slideInFromTop { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+   @keyframes slideInFromLeft { from { transform: translateX(-20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+   @keyframes slideInFromRight { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+   @keyframes slideInFromBottom { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } } /* Added */
+   @keyframes zoomIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+   @keyframes pulse {
+     0%, 100% { opacity: 1; }
+     50% { opacity: .6; }
    }
 
+   /* Animation Classes */
+   .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+   .animate-slide-in-top { animation: slideInFromTop 0.5s ease-out forwards; }
+   .animate-slide-in-left { animation: slideInFromLeft 0.5s ease-out forwards; }
+   .animate-slide-in-right { animation: slideInFromRight 0.5s ease-out forwards; }
+   .animate-slide-in-bottom { animation: slideInFromBottom 0.5s ease-out forwards; } /* Added */
+   .animate-zoom-in { animation: zoomIn 0.3s ease-out forwards; }
+   .animate-pulse { animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
 
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-out forwards;
-  }
-  .animate-slide-in-top {
-    animation: slideInFromTop 0.5s ease-out forwards;
-  }
-   .animate-slide-in-left {
-    animation: slideInFromLeft 0.5s ease-out forwards;
-  }
-   .animate-slide-in-right {
-    animation: slideInFromRight 0.5s ease-out forwards;
-  }
-   .animate-zoom-in {
-     animation: zoomIn 0.3s ease-out forwards;
-   }
 
-  /* Combine animations with tailwind animate-in */
+   /* Combine animations with tailwind animate-in */
    .animate-in.fade-in { animation-name: fadeIn; }
    .animate-in.slide-in-from-top { animation-name: slideInFromTop; }
    .animate-in.slide-in-from-left { animation-name: slideInFromLeft; }
    .animate-in.slide-in-from-right { animation-name: slideInFromRight; }
+   .animate-in.slide-in-from-bottom { animation-name: slideInFromBottom; } /* Added */
    .animate-in.zoom-in-95 { animation-name: zoomIn; } /* Example override */
+
+   /* Add specific utility classes if needed, e.g., for hover effects */
+   .group-hover-scale-110 {
+       @apply group-hover:scale-110 transition-transform duration-300;
+   }
 
 }

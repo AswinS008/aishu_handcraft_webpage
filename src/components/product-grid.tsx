@@ -3,29 +3,56 @@
 
 import type { Product } from '@/lib/types';
 import ProductCard from './product-card';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import { motion, AnimatePresence } from 'framer-motion'; // Import framer-motion
+import { Button } from "@/components/ui/button"; // Import Button
+import { motion, AnimatePresence } from 'framer-motion';
+import { useSearchParams } from 'next/navigation';
 
 interface ProductGridProps {
   products: Product[];
-  searchTerm?: string; // Add searchTerm prop
 }
 
 type SortOption = 'default' | 'price-asc' | 'price-desc' | 'popularity';
 
-export default function ProductGrid({ products, searchTerm = '' }: ProductGridProps) {
+// Get unique categories from products, including 'All'
+const getCategories = (products: Product[]): string[] => {
+  const categories = new Set(products.map(p => p.category));
+  return ['All', ...Array.from(categories)];
+};
+
+export default function ProductGrid({ products }: ProductGridProps) {
+  const searchParams = useSearchParams();
+  const initialCategory = searchParams.get('category') || 'All';
+  const searchTerm = searchParams.get('search') || '';
+
   const [sortOption, setSortOption] = useState<SortOption>('default');
+  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
+
+  // Update selected category if URL param changes
+  useEffect(() => {
+    setSelectedCategory(initialCategory);
+  }, [initialCategory]);
+
+  const categories = useMemo(() => getCategories(products), [products]);
 
   const filteredAndSortedProducts = useMemo(() => {
-    // 1. Filter based on search term (case-insensitive)
-    const filtered = products.filter(product =>
-      product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    // 1. Filter by category
+    let filtered = products;
+    if (selectedCategory !== 'All') {
+      filtered = products.filter(product => product.category === selectedCategory);
+    }
 
-    // 2. Sort the filtered products
+    // 2. Filter based on search term (case-insensitive)
+    if (searchTerm) {
+      filtered = filtered.filter(product =>
+        product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // 3. Sort the filtered products
     let sorted = [...filtered];
     switch (sortOption) {
       case 'price-asc':
@@ -45,47 +72,85 @@ export default function ProductGrid({ products, searchTerm = '' }: ProductGridPr
         break;
     }
     return sorted;
-  }, [products, sortOption, searchTerm]); // Add searchTerm to dependency array
+  }, [products, sortOption, selectedCategory, searchTerm]);
+
+  const handleCategoryChange = (category: string) => {
+      setSelectedCategory(category);
+      // Update URL without full page reload - Optional, but good UX
+      const currentParams = new URLSearchParams(window.location.search);
+      if (category === 'All') {
+          currentParams.delete('category');
+      } else {
+          currentParams.set('category', category);
+      }
+      window.history.pushState({}, '', `${window.location.pathname}?${currentParams.toString()}`);
+  };
+
 
   return (
-    <div>
-       <div className="mb-6 flex flex-col sm:flex-row justify-between items-center gap-4 p-4 bg-secondary/50 rounded-lg shadow-sm">
-         <div className="flex items-center gap-2">
-           <Label htmlFor="sort-select" className="text-sm font-medium shrink-0">Sort by:</Label>
-           <Select value={sortOption} onValueChange={(value: SortOption) => setSortOption(value)}>
-             <SelectTrigger id="sort-select" className="w-[180px] bg-background">
-               <SelectValue placeholder="Sort products" />
-             </SelectTrigger>
-             <SelectContent>
-               <SelectItem value="default">Default</SelectItem>
-               <SelectItem value="popularity">Popularity</SelectItem>
-               <SelectItem value="price-asc">Price: Low to High</SelectItem>
-               <SelectItem value="price-desc">Price: High to Low</SelectItem>
-             </SelectContent>
-           </Select>
+    <div className="container mx-auto px-4 py-8">
+       {/* Filters and Sorting Section - Styled like ShionHouse */}
+       <div className="mb-12">
+         <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-6">
+           {categories.map((category) => (
+             <Button
+               key={category}
+               variant={selectedCategory === category ? "default" : "outline"}
+               onClick={() => handleCategoryChange(category)}
+               className={`px-4 py-2 rounded-full text-sm transition-colors duration-200 ${
+                 selectedCategory === category
+                   ? 'bg-primary text-primary-foreground'
+                   : 'bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground'
+               }`}
+             >
+               {category}
+             </Button>
+           ))}
          </div>
-          {searchTerm && (
-           <div className="text-sm text-muted-foreground">
-             Showing results for: <span className="font-semibold text-primary">{searchTerm}</span>
+
+         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 px-4 py-2 bg-card rounded-lg shadow-sm border border-border">
+           <div className="text-sm text-muted-foreground w-full sm:w-auto text-center sm:text-left">
+             Showing {filteredAndSortedProducts.length} of {products.length} products
+             {searchTerm && (
+                <span> for "<span className="font-semibold text-primary">{searchTerm}</span>"</span>
+             )}
+              {selectedCategory !== 'All' && (
+                 <span> in <span className="font-semibold text-primary">{selectedCategory}</span></span>
+              )}
            </div>
-         )}
-         {/* Add Filter Button/Drawer here if needed */}
+           <div className="flex items-center gap-2 w-full sm:w-auto justify-center sm:justify-end">
+             <span className="text-sm font-medium shrink-0 text-muted-foreground">Sort by:</span>
+             <Select value={sortOption} onValueChange={(value: SortOption) => setSortOption(value)}>
+               <SelectTrigger id="sort-select" className="w-[180px] bg-background text-sm h-9">
+                 <SelectValue placeholder="Sort products" />
+               </SelectTrigger>
+               <SelectContent>
+                 <SelectItem value="default">Default</SelectItem>
+                 <SelectItem value="popularity">Popularity</SelectItem>
+                 <SelectItem value="price-asc">Price: Low to High</SelectItem>
+                 <SelectItem value="price-desc">Price: High to Low</SelectItem>
+               </SelectContent>
+             </Select>
+           </div>
+         </div>
        </div>
 
+      {/* Product Grid */}
       <motion.div
         layout // Animate layout changes when products change/reorder
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10" // Added gap-y like ShionHouse
       >
         <AnimatePresence>
           {filteredAndSortedProducts.length > 0 ? (
-             filteredAndSortedProducts.map((product) => (
+             filteredAndSortedProducts.map((product, index) => (
               <motion.div
                 key={product.id}
                 layout // Animate individual item layout changes
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }} // Stagger animation
+                className="flex" // Ensure cards take full height of the flex item
               >
                 <ProductCard product={product} />
               </motion.div>
@@ -94,9 +159,9 @@ export default function ProductGrid({ products, searchTerm = '' }: ProductGridPr
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="col-span-full text-center text-muted-foreground py-10"
+              className="col-span-full text-center text-muted-foreground py-16 text-lg" // Increased padding and text size
             >
-              {searchTerm ? `No products found matching "${searchTerm}".` : "No products available."}
+              {searchTerm || selectedCategory !== 'All' ? `No products found matching your criteria.` : "No products available."}
             </motion.p>
           )}
         </AnimatePresence>
@@ -104,3 +169,4 @@ export default function ProductGrid({ products, searchTerm = '' }: ProductGridPr
     </div>
   );
 }
+```
