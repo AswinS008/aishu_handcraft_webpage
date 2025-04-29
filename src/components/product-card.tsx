@@ -2,10 +2,10 @@
 import type { Product } from '@/lib/types';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardContent, CardFooter } from '@/components/ui/card'; // Removed Header/Title imports
+import { Card, CardContent } from '@/components/ui/card'; // Removed Footer import
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart, Send, Eye, Heart } from 'lucide-react'; // Added Eye and Heart icons
+import { ShoppingCart, Send, Eye, Heart } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -25,6 +25,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           fill
           sizes="(max-width: 640px) 90vw, (max-width: 768px) 45vw, (max-width: 1024px) 30vw, 23vw"
           className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
+          priority={product.id === 'prod_001'} // Example: Prioritize loading for the first image
         />
         {/* Badges */}
         <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
@@ -42,21 +43,32 @@ export default function ProductCard({ product }: ProductCardProps) {
          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-center gap-2">
              <Button size="icon" variant="secondary" className="rounded-full h-10 w-10 bg-background/80 backdrop-blur-sm hover:bg-primary hover:text-primary-foreground transition-colors">
                  <Heart className="h-5 w-5" />
+                 <span className="sr-only">Add to Wishlist</span>
              </Button>
              {/* Inquiry Button or Add to Cart */}
              {product.soldOut ? (
                  <Button size="icon" variant="secondary" disabled className="rounded-full h-10 w-10 bg-background/80 backdrop-blur-sm cursor-not-allowed">
                      <ShoppingCart className="h-5 w-5" />
+                      <span className="sr-only">Sold Out</span>
                  </Button>
              ) : (
                   <Button size="icon" variant="secondary" asChild className="rounded-full h-10 w-10 bg-background/80 backdrop-blur-sm hover:bg-primary hover:text-primary-foreground transition-colors">
                      <Link href="/contact">
                         <Send className="h-5 w-5" />
+                         <span className="sr-only">Send Inquiry</span>
                       </Link>
                   </Button>
              )}
-             <Button size="icon" variant="secondary" className="rounded-full h-10 w-10 bg-background/80 backdrop-blur-sm hover:bg-primary hover:text-primary-foreground transition-colors">
+             {/* Disabled View button as functionality is not implemented */}
+             <Button
+               size="icon"
+               variant="secondary"
+               disabled
+               className="rounded-full h-10 w-10 bg-background/80 backdrop-blur-sm cursor-not-allowed"
+               aria-label="View product (disabled)"
+             >
                  <Eye className="h-5 w-5" />
+                 <span className="sr-only">View Product (disabled)</span>
              </Button>
          </div>
 
@@ -97,4 +109,3 @@ export default function ProductCard({ product }: ProductCardProps) {
     </Card>
   );
 }
-```

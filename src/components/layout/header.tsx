@@ -66,7 +66,7 @@ export default function Header() {
 
   const renderNavLinks = (isMobile = false) => (
     <>
-      <Button variant="link" className={`p-0 h-auto text-base ${isMobile ? 'w-full justify-start py-2' : ''} ${pathname === '/' ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`} onClick={handleLogoClick}>
+      <Button variant="link" className={`p-0 h-auto text-base ${isMobile ? 'w-full justify-start py-2' : ''} ${pathname === '/' && !searchParams.get('category') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`} onClick={handleLogoClick}>
         Home
       </Button>
       {/* Category Links */}
@@ -215,4 +215,3 @@ export default function Header() {
     </header>
   );
 }
-```
