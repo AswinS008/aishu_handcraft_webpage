@@ -35,73 +35,72 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-8">
-         {/* Centered Content Grid */}
-         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
+      <section className="container mx-auto px-4 py-8 flex flex-col items-center"> {/* Center content */}
 
-           {/* Contact Information Card - Centered on large screens */}
-            <div className="lg:col-span-2 lg:col-start-2 animate-in fade-in slide-in-from-bottom duration-500 delay-200">
-                <Card className="w-full shadow-lg border-border/50">
-                    <CardHeader>
-                        <CardTitle className="text-2xl font-semibold text-foreground text-center">Get In Touch</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-6 text-sm pt-0"> {/* Added pt-0 */}
-                       {/* Decorative Image Placeholder */}
-                       <div className="relative h-40 w-full rounded-md overflow-hidden bg-gradient-to-r from-pink-100 to-blue-100 mb-6">
+         {/* Contact Information Card - Centered */}
+          <div className="w-full max-w-2xl mb-16 animate-in fade-in slide-in-from-bottom duration-500 delay-200">
+              <Card className="w-full shadow-lg border-border/50">
+                  <CardHeader className="pb-4"> {/* Reduced padding */}
+                      <CardTitle className="text-2xl font-semibold text-foreground text-center">Get In Touch</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-0 text-sm pt-0"> {/* Removed space-y, Added pt-0 */}
+
+                      {/* NEW: Decorative Image Placeholder (Craft Theme) */}
+                       <div className="relative h-40 w-full rounded-t-md overflow-hidden bg-gradient-to-r from-pink-100 to-blue-100 mb-6">
                            <Image
-                                src="https://picsum.photos/seed/contactusdecor/600/200"
-                                alt="Contact decor image"
+                                src="https://picsum.photos/seed/contactcrafts/600/200" // New image seed
+                                alt="Handcrafts background"
                                 fill
-                                className="object-cover opacity-70"
-                                data-ai-hint="communication support helpdesk"
+                                className="object-cover opacity-80" // Slightly less opacity
+                                data-ai-hint="handmade crafts tools thread beads" // Updated hint
                             />
-                           <div className="absolute inset-0 flex items-center justify-center bg-black/10">
-                               <p className="text-white text-lg font-semibold drop-shadow-md">We're here to help!</p>
-                           </div>
+                           {/* Removed overlay text */}
                        </div>
 
-                       <div className="flex items-start gap-4">
-                         <MapPin className="h-5 w-5 mt-0.5 text-accent flex-shrink-0" />
-                         <div>
-                           <p className="font-medium text-foreground">Address:</p>
-                           <p className="text-muted-foreground">359/4 D.D.Road,</p>
-                           <p className="text-muted-foreground">Arappalayam,</p>
-                           <p className="text-muted-foreground">Madurai - 625016</p>
-                         </div>
-                       </div>
-                       <div className="flex items-center gap-4">
-                         <Phone className="h-5 w-5 text-accent flex-shrink-0" />
-                         <div>
-                           <p className="font-medium text-foreground">Phone / WhatsApp:</p>
-                           <a href="tel:+919034587332" className="text-muted-foreground hover:text-primary transition-colors">9034587332</a>
-                            <p className="text-xs text-muted-foreground">(Click to call or message)</p>
-                         </div>
-                       </div>
-                       <div className="flex items-center gap-4">
-                         <Mail className="h-5 w-5 text-accent flex-shrink-0" />
-                         <div>
-                           <p className="font-medium text-foreground">Email:</p>
-                           <a href="mailto:aishu_handcraft@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">aishu_handcraft@gmail.com</a>
-                         </div>
-                       </div>
-                         <div className="flex items-center gap-4">
-                         <Instagram className="h-5 w-5 text-accent flex-shrink-0" />
-                         <div>
-                           <p className="font-medium text-foreground">Instagram:</p>
-                           <a href="https://www.instagram.com/house_of_aishu?igsh=MWQ4eW53NnNuaTFnYQ%3D%3D" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">@house_of_aishu</a>
-                            <p className="text-xs text-muted-foreground">(DM for orders & enquiries)</p>
-                         </div>
-                       </div>
-                        {/* Removed Business Hours */}
-                    </CardContent>
-                </Card>
-            </div>
-         </div>
+                      {/* Contact Details Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 px-4 pb-6"> {/* Added grid */}
+                          <div className="flex items-start gap-3">
+                            <MapPin className="h-5 w-5 mt-1 text-accent flex-shrink-0" />
+                            <div>
+                              <p className="font-medium text-foreground">Address:</p>
+                              <p className="text-muted-foreground">359/4 D.D.Road,</p>
+                              <p className="text-muted-foreground">Arappalayam,</p>
+                              <p className="text-muted-foreground">Madurai - 625016</p>
+                            </div>
+                          </div>
+                          <div className="flex items-start gap-3"> {/* Changed to items-start */}
+                            <Phone className="h-5 w-5 mt-1 text-accent flex-shrink-0" />
+                            <div>
+                              <p className="font-medium text-foreground">Phone / WhatsApp:</p>
+                              <a href="tel:+919034587332" className="text-muted-foreground hover:text-primary transition-colors block">9034587332</a>
+                               <p className="text-xs text-muted-foreground">(Click to call or message)</p>
+                            </div>
+                          </div>
+                          <div className="flex items-start gap-3"> {/* Changed to items-start */}
+                            <Mail className="h-5 w-5 mt-1 text-accent flex-shrink-0" />
+                            <div>
+                              <p className="font-medium text-foreground">Email:</p>
+                              <a href="mailto:aishu_handcraft@gmail.com" className="text-muted-foreground hover:text-primary transition-colors break-all">aishu_handcraft@gmail.com</a>
+                            </div>
+                          </div>
+                          <div className="flex items-start gap-3"> {/* Changed to items-start */}
+                            <Instagram className="h-5 w-5 mt-1 text-accent flex-shrink-0" />
+                            <div>
+                              <p className="font-medium text-foreground">Instagram:</p>
+                              <a href="https://www.instagram.com/house_of_aishu?igsh=MWQ4eW53NnNuaTFnYQ%3D%3D" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">@house_of_aishu</a>
+                               <p className="text-xs text-muted-foreground">(DM for orders & enquiries)</p>
+                            </div>
+                          </div>
+                      </div>
+                      {/* Removed Business Hours */}
+                  </CardContent>
+              </Card>
+          </div>
 
           {/* FAQ Section */}
-           <div id="faq-placeholder" className="mt-16 animate-in fade-in slide-in-from-bottom duration-500 delay-400">
+           <div id="faq-placeholder" className="w-full max-w-2xl mb-16 animate-in fade-in slide-in-from-bottom duration-500 delay-400">
               <h2 className="text-2xl font-semibold text-foreground text-center mb-6">Frequently Asked Questions</h2>
-               <Accordion type="single" collapsible className="w-full max-w-2xl mx-auto bg-card p-4 sm:p-6 rounded-lg shadow-sm border border-border/50">
+               <Accordion type="single" collapsible className="w-full bg-card p-4 sm:p-6 rounded-lg shadow-sm border border-border/50">
                  <AccordionItem value="item-1">
                    <AccordionTrigger className="text-left hover:no-underline">How do I place an order?</AccordionTrigger>
                    <AccordionContent>
@@ -130,7 +129,7 @@ export default function ContactPage() {
            </div>
 
            {/* Map Section - Full Width Below */}
-           <div className="mt-16 animate-in fade-in slide-in-from-bottom duration-500 delay-600"> {/* Adjusted delay */}
+           <div className="w-full max-w-4xl animate-in fade-in slide-in-from-bottom duration-500 delay-600"> {/* Adjusted delay and width */}
                 <h2 className="text-2xl font-semibold text-foreground text-center mb-6">Our Location (Madurai)</h2>
                  {/* Updated Google Maps iframe */}
                  <div className="bg-secondary rounded-lg h-64 md:h-96 w-full flex items-center justify-center text-muted-foreground border border-border/50 shadow-lg overflow-hidden"> {/* Added shadow-lg */}
