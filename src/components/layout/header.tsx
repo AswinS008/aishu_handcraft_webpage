@@ -1,14 +1,13 @@
-
 'use client'; // Make header client-side for routing and mobile menu state
 
 import Link from 'next/link';
-import { Package2, Instagram, Facebook, Twitter, Menu, X, ChevronDown, Phone, Mail } from 'lucide-react'; // Added Phone, Mail
+import { Instagram, Menu, X, ChevronDown, Phone, Mail } from 'lucide-react'; // Removed Package2, Facebook, Twitter. Added Phone, Mail
 import { Button } from '@/components/ui/button';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { motion } from 'framer-motion';
-import SearchCategoryDropdown from '@/components/search-category-dropdown'; // Import the new component
+import SearchCategoryDropdown from '@/components/search-category-dropdown';
 import productsData from '@/data/products.json';
 import type { Product } from '@/lib/types';
 import {
@@ -16,7 +15,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"; // Import Dropdown components
+} from "@/components/ui/dropdown-menu";
+import AishuLogoIcon from '@/components/icons/aishu-logo-icon'; // Import the new custom icon
 
 // Get unique categories from products (can be reused or moved to a util)
 const getCategories = (products: Product[]): string[] => {
@@ -141,7 +141,7 @@ export default function Header() {
                      <div className="flex justify-between items-center mb-8">
                         {/* Logo inside mobile menu */}
                         <div className="flex items-center gap-2 font-semibold text-primary cursor-pointer" onClick={handleLogoClick}>
-                          <Package2 className="h-6 w-6 text-accent" />
+                          <AishuLogoIcon className="h-6 w-6 text-accent" /> {/* Use new icon */}
                           <span className="text-lg">Aishu's Handcraft</span>
                         </div>
                          <SheetClose asChild>
@@ -182,8 +182,7 @@ export default function Header() {
 
             {/* Logo */}
              <div className="flex items-center cursor-pointer" onClick={handleLogoClick}>
-              <Package2 className="h-7 w-7 text-accent" />
-              {/* Consider replacing Package2 with a custom SVG/Image logo later */}
+              <AishuLogoIcon className="h-7 w-7 text-accent" /> {/* Use new icon */}
               <span className="ml-2 text-xl font-bold text-primary hidden sm:inline-block">Aishu's Handcraft</span>
             </div>
         </div>
