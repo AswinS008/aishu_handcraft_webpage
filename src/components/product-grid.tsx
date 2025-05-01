@@ -1,4 +1,3 @@
-
 'use client';
 
 import type { Product } from '@/lib/types';
@@ -12,12 +11,12 @@ interface ProductGridProps {
   products: Product[];
 }
 
-type SortOption = 'default' | 'price-asc' | 'price-desc' | 'popularity';
+type SortOption = 'default' | 'price-asc' | 'price-desc'; // Removed 'popularity'
 
 export default function ProductGrid({ products }: ProductGridProps) {
   const searchParams = useSearchParams();
   const selectedCategory = searchParams.get('category') || 'All'; // Get category from URL params
-  const searchTerm = searchParams.get('search') || ''; // Get search term from URL (keep for future)
+  const searchTerm = searchParams.get('search') || ''; // Get search term from URL
 
   const [sortOption, setSortOption] = useState<SortOption>('default');
 
@@ -28,7 +27,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
       filtered = products.filter(product => product.category === selectedCategory);
     }
 
-    // 2. Filter based on search term (case-insensitive) - Keep search functionality
+    // 2. Filter based on search term (case-insensitive)
     if (searchTerm) {
       filtered = filtered.filter(product =>
         product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -46,14 +45,14 @@ export default function ProductGrid({ products }: ProductGridProps) {
       case 'price-desc':
         sorted.sort((a, b) => (b.discount ? b.price * (1 - b.discount/100) : b.price) - (a.discount ? a.price * (1 - a.discount/100) : a.price));
         break;
-      case 'popularity':
-        // Sort by popularity descending, putting items without popularity last
-        sorted.sort((a, b) => (b.popularity ?? -1) - (a.popularity ?? -1));
-        break;
+      // Removed popularity case
       case 'default':
       default:
-        // Default sort: by ID or maybe add featured logic later
-        sorted.sort((a, b) => (a.popularity ?? -1) - (b.popularity ?? -1) || a.id.localeCompare(b.id)); // Example: default sort by popularity then ID
+        // Default sort: Example: by ID or maybe add featured logic later based on product data structure
+         // If you add a `featured: boolean` field to products.json, you could sort featured first
+         // sorted.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0) || a.id.localeCompare(b.id));
+         // For now, just sort by ID as a fallback default
+        sorted.sort((a, b) => a.id.localeCompare(b.id));
         break;
     }
     return sorted;
@@ -73,9 +72,9 @@ export default function ProductGrid({ products }: ProductGridProps) {
   return (
     <>
        {/* Filters and Sorting Section */}
-       <div className="mb-8 md:mb-12">
-         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 px-4 py-3 bg-card rounded-lg shadow-sm border border-border">
-           <div className="text-sm text-muted-foreground w-full sm:w-auto text-center sm:text-left">
+       <div className="mb-6 md:mb-10"> {/* Reduced bottom margin slightly */}
+         <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 px-3 py-2 sm:px-4 sm:py-3 bg-card rounded-lg shadow-sm border border-border"> {/* Adjusted padding and gap */}
+           <div className="text-xs sm:text-sm text-muted-foreground w-full sm:w-auto text-center sm:text-left">
               Showing {showingCount} product{showingCount !== 1 ? 's' : ''}
               {(selectedCategory !== 'All' || searchTerm) && ` of ${totalProductsToCount}`}
               {searchTerm && (
@@ -84,14 +83,14 @@ export default function ProductGrid({ products }: ProductGridProps) {
               {/* Removed category name display here, handled by tabs/title */}
            </div>
            <div className="flex items-center gap-2 w-full sm:w-auto justify-center sm:justify-end">
-             <span className="text-sm font-medium shrink-0 text-muted-foreground">Sort by:</span>
+             <span className="text-xs sm:text-sm font-medium shrink-0 text-muted-foreground">Sort by:</span>
              <Select value={sortOption} onValueChange={(value: SortOption) => setSortOption(value)}>
-               <SelectTrigger id="sort-select" className="w-[180px] bg-background text-sm h-9">
+               <SelectTrigger id="sort-select" className="w-[150px] sm:w-[180px] bg-background text-xs sm:text-sm h-8 sm:h-9"> {/* Adjusted width and height */}
                  <SelectValue placeholder="Sort products" />
                </SelectTrigger>
                <SelectContent>
                  <SelectItem value="default">Featured</SelectItem>
-                 <SelectItem value="popularity">Popularity</SelectItem>
+                 {/* <SelectItem value="popularity">Popularity</SelectItem> */} {/* Removed Popularity */}
                  <SelectItem value="price-asc">Price: Low to High</SelectItem>
                  <SelectItem value="price-desc">Price: High to Low</SelectItem>
                </SelectContent>
@@ -103,7 +102,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
       {/* Product Grid - Added responsive grid columns */}
        <motion.div
          layout // Animate layout changes when the grid itself changes (e.g., filters applied)
-         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10" // Responsive columns
+         className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 gap-y-6 sm:gap-x-5 sm:gap-y-8" // Responsive columns with adjusted gaps
         >
          <AnimatePresence mode="popLayout"> {/* Use AnimatePresence for item animations */}
            {filteredAndSortedProducts.length > 0 ? (
@@ -125,7 +124,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
                initial={{ opacity: 0 }}
                animate={{ opacity: 1 }}
                exit={{ opacity: 0 }} // Add exit animation for the message
-               className="col-span-full text-center text-muted-foreground py-16 text-lg"
+               className="col-span-full text-center text-muted-foreground py-12 sm:py-16 text-base sm:text-lg" // Adjusted padding and text size
              >
                {searchTerm || selectedCategory !== 'All' ? `No products found matching your criteria.` : "No products available in this category."}
              </motion.p>

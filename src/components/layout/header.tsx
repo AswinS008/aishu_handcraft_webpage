@@ -1,4 +1,3 @@
-
 'use client'; // Make header client-side for routing and mobile menu state
 
 import Link from 'next/link';
@@ -97,7 +96,7 @@ export default function Header() {
          <DropdownMenuTrigger asChild>
            <Button
              variant="link"
-             className={`p-0 h-auto font-medium ${isMobile ? 'w-full justify-start py-3 text-lg' : 'text-sm'} text-foreground hover:text-primary`}
+             className={`p-0 h-auto font-medium ${isMobile ? 'w-full justify-start py-3 text-lg' : 'text-sm'} text-foreground hover:text-primary flex items-center`} // Added flex items-center
            >
              Categories <ChevronDown className="ml-1 h-4 w-4" />
            </Button>
@@ -129,20 +128,22 @@ export default function Header() {
      >
       {/* Apply backdrop blur when scrolled */}
       <div className={cn(
-        "flex h-16 items-center justify-between gap-2 sm:gap-4 px-4 md:px-6 transition-all duration-300 ease-in-out", // Reduced gap for smaller screens
+        "flex h-16 items-center justify-between gap-2 sm:gap-4 px-4 md:px-6 transition-all duration-300 ease-in-out relative", // Added relative positioning
         isScrolled
           ? 'bg-background/80 backdrop-blur-md shadow-lg border border-border/40 rounded-full' // Added backdrop-blur-md and reduced opacity
           : 'bg-background border-b border-border/40'
       )}>
+        {/* Background layer for scrolled state */}
+         {isScrolled && <div className="absolute inset-0 bg-background/80 backdrop-blur-md rounded-full -z-10"></div>}
 
         {/* Left Section: Mobile Menu Trigger & Logo */}
-        <div className="flex items-center gap-2 flex-shrink-0"> {/* Prevent shrinking */}
+        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0 z-10"> {/* Ensure Z-index */}
             {/* Mobile Menu Trigger */}
             <div className="md:hidden"> {/* Ensure it's hidden on medium and up */}
               <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <Menu className="h-6 w-6" />
+                  <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-9 sm:w-9"> {/* Smaller icon button for mobile */}
+                    <Menu className="h-5 w-5" />
                     <span className="sr-only">Open menu</span>
                   </Button>
                 </SheetTrigger>
@@ -183,7 +184,6 @@ export default function Header() {
                           <a href="https://www.instagram.com/house_of_aishu?igsh=MWQ4eW53NnNuaTFnYQ%3D%3D" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-muted-foreground hover:text-primary">
                              <Instagram className="h-5 w-5" />
                            </a>
-                            {/* Removed Facebook and Twitter */}
                        </div>
                      </div>
                   </div>
@@ -196,14 +196,16 @@ export default function Header() {
               <AishuLogoIcon className="h-7 w-7 text-accent" /> {/* Use new icon */}
                {/* Apply Caveat font to the logo text */}
                {/* Show simplified logo on small screens */}
-               <span className="ml-1 text-xl sm:ml-2 sm:text-2xl font-bold text-primary font-caveat">Aishu's Handcraft</span>
+               <span className="ml-1 text-lg sm:ml-2 sm:text-xl md:text-2xl font-bold text-primary font-caveat">Aishu's Handcraft</span>
             </div>
         </div>
 
 
         {/* Center Section: Search/Category Dropdown */}
-        <div className="flex-1 flex justify-center px-2 sm:px-4"> {/* Adjust padding */}
+        {/* Flex grow allows it to take remaining space, mx-auto centers it if space allows */}
+        <div className="flex-1 flex justify-center items-center min-w-0 px-1 sm:px-2 z-10"> {/* Ensure Z-index, min-width: 0 helps flex shrink */}
            {/* Control width of search - make it more flexible */}
+           {/* Max width prevents it from becoming too large on wider screens */}
            <div className="w-full max-w-xs sm:max-w-sm md:max-w-md">
                 <SearchCategoryDropdown categories={categories} />
            </div>
@@ -211,7 +213,8 @@ export default function Header() {
 
 
         {/* Right Section: Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-4 md:gap-6 flex-shrink-0"> {/* Ensure desktop nav shown correctly, prevent shrinking */}
+        {/* Added flex-shrink-0 to prevent shrinking, hidden on mobile */}
+        <nav className="hidden md:flex items-center gap-4 md:gap-6 flex-shrink-0 z-10"> {/* Ensure Z-index */}
          {renderNavLinks()}
         </nav>
 

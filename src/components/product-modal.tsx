@@ -1,4 +1,3 @@
-
 'use client';
 
 import type { Product } from '@/lib/types';
@@ -8,6 +7,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Phone, X, Star, MessageSquare, Info } from 'lucide-react'; // Added Info icon
+// NOTE: Radix doesn't export VisuallyHidden directly in the main package for v1+
+// Using a utility class is more common with Tailwind.
+// If needed, create a VisuallyHidden component or use Tailwind's `sr-only` class.
 
 interface ProductModalProps {
   isOpen: boolean;
@@ -25,14 +27,14 @@ export default function ProductModal({ isOpen, onClose, product, formatPrice }: 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden"> {/* Increased max-width and remove default padding */}
+      <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden" aria-describedby={undefined}> {/* Remove default aria-describedby if DialogDescription exists */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-0"> {/* No gap between image and content */}
 
           {/* Image Section */}
           <div className="relative aspect-[3/4] w-full bg-secondary">
              <Image
                 src={product.imageUrl}
-                alt={product.title}
+                alt={product.title} // Alt text describes the image
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
@@ -63,11 +65,14 @@ export default function ProductModal({ isOpen, onClose, product, formatPrice }: 
           {/* Content Section */}
           <div className="p-6 flex flex-col justify-between">
             <div>
+              {/* DialogHeader now contains the required DialogTitle and optional DialogDescription */}
               <DialogHeader className="mb-4">
-                <DialogTitle className="text-2xl font-semibold text-foreground">{product.title}</DialogTitle>
-                <DialogDescription className="text-sm text-muted-foreground pt-1">
-                    Category: <Link href={`/?category=${encodeURIComponent(product.category)}`} onClick={onClose} className="text-primary hover:underline">{product.category}</Link>
-                </DialogDescription>
+                 {/* Add DialogTitle - this is crucial for accessibility */}
+                 <DialogTitle className="text-2xl font-semibold text-foreground">{product.title}</DialogTitle>
+                 {/* DialogDescription provides additional context */}
+                 <DialogDescription className="text-sm text-muted-foreground pt-1" id={`product-modal-desc-${product.id}`}>
+                   Category: <Link href={`/?category=${encodeURIComponent(product.category)}`} onClick={onClose} className="text-primary hover:underline">{product.category}</Link>
+                 </DialogDescription>
               </DialogHeader>
 
               {/* Price */}
@@ -111,13 +116,20 @@ export default function ProductModal({ isOpen, onClose, product, formatPrice }: 
                          target="_blank"
                          rel="noopener noreferrer"
                          className={product.soldOut ? 'cursor-not-allowed' : ''}
+                         onClick={(e) => {if (product.soldOut) e.preventDefault()}} // Prevent link click if sold out
                       >
                          <MessageSquare className="mr-2 h-5 w-5" />
                          {product.soldOut ? 'Sold Out' : 'Order on WhatsApp'}
                       </a>
                  </Button>
                  <Button asChild variant="outline" className="w-full" size="lg" disabled={product.soldOut}>
-                   <Link href={product.soldOut ? "#" : "/contact"} className={product.soldOut ? 'cursor-not-allowed' : ''}>
+                   <Link
+                      href={product.soldOut ? "#" : "/contact"}
+                      className={product.soldOut ? 'cursor-not-allowed pointer-events-none' : ''} // Prevent interaction if sold out
+                      aria-disabled={product.soldOut} // Accessibility for disabled state
+                      tabIndex={product.soldOut ? -1 : undefined} // Remove from tab order if sold out
+                      onClick={(e) => {if (product.soldOut) e.preventDefault()}} // Prevent link navigation if sold out
+                   >
                      <Phone className="mr-2 h-5 w-5" />
                      {product.soldOut ? 'Sold Out' : 'More Contact Options'}
                    </Link>
