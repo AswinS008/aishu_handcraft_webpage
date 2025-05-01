@@ -3,18 +3,19 @@
   {
     "id": "prod_001",
     "title": "Delicate Invisible Neckpiece",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. A barely-there chain for a subtle sparkle.",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. A barely-there chain for a subtle sparkle. Perfect for everyday wear or layering.",
     "price": 22.99,
-    "imageUrl": "https://picsum.photos/seed/neckpiece1/400/300",
+    "imageUrl": "https://picsum.photos/seed/neckpiece1/400/600",
     "category": "Invisible neckpiece",
-    "popularity": 85
+    "popularity": 85,
+    "customizable": true
   },
   {
     "id": "prod_002",
     "title": "Minimalist Invisible Anklet",
-    "description": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "description": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. A simple and elegant anklet.",
     "price": 15.50,
-    "imageUrl": "https://picsum.photos/seed/anklet1/400/300",
+    "imageUrl": "https://picsum.photos/seed/anklet1/400/600",
     "category": "Invisible anklet",
     "soldOut": true,
     "popularity": 92
@@ -22,37 +23,39 @@
   {
     "id": "prod_003",
     "title": "Kundan Silk Thread Bangles (Set of 4)",
-    "description": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+    "description": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Traditional bangles with intricate Kundan work.",
     "price": 35.00,
-    "imageUrl": "https://picsum.photos/seed/bangles1/400/300",
+    "imageUrl": "https://picsum.photos/seed/bangles1/400/600",
     "category": "Kundan silk thread bangles",
     "discount": 10,
-    "popularity": 70
+    "popularity": 70,
+    "customizable": true
   },
   {
     "id": "prod_004",
     "title": "Hand-painted Return Gift Box",
-    "description": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "description": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Unique boxes perfect for party favors.",
     "price": 8.75,
-    "imageUrl": "https://picsum.photos/seed/returngift1/400/300",
+    "imageUrl": "https://picsum.photos/seed/returngift1/400/600",
     "category": "Return gifts",
-    "popularity": 65
+    "popularity": 65,
+    "customizable": true
   },
   {
     "id": "prod_005",
     "title": "Satin Bow Hair Tie",
-    "description": "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.",
+    "description": "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores. A cute and stylish hair accessory.",
     "price": 7.00,
-    "imageUrl": "https://picsum.photos/seed/hairtie1/400/300",
+    "imageUrl": "https://picsum.photos/seed/hairtie1/400/600",
     "category": "Hair tie",
     "popularity": 88
   },
   {
     "id": "prod_006",
     "title": "Floral Center Hair Clip",
-    "description": "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.",
+    "description": "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit. Elegant hair clip with a floral design.",
     "price": 12.99,
-    "imageUrl": "https://picsum.photos/seed/hairclip1/400/300",
+    "imageUrl": "https://picsum.photos/seed/hairclip1/400/600",
     "category": "Center hair clip",
     "discount": 5,
     "popularity": 95
@@ -60,37 +63,39 @@
   {
     "id": "prod_007",
     "title": "Pearl Drop Invisible Neckpiece",
-    "description": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
+    "description": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. Features a delicate pearl drop.",
     "price": 28.50,
-    "imageUrl": "https://picsum.photos/seed/neckpiece2/400/300",
+    "imageUrl": "https://picsum.photos/seed/neckpiece2/400/600",
     "category": "Invisible neckpiece",
     "soldOut": false,
-    "popularity": 78
+    "popularity": 78,
+    "customizable": true
   },
   {
     "id": "prod_008",
     "title": "Beaded Invisible Anklet",
-    "description": "Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+    "description": "Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Adds a touch of boho chic.",
     "price": 18.25,
-    "imageUrl": "https://picsum.photos/seed/anklet2/400/300",
+    "imageUrl": "https://picsum.photos/seed/anklet2/400/600",
     "category": "Invisible anklet",
     "popularity": 82
   },
    {
     "id": "prod_009",
     "title": "Vibrant Silk Thread Bangles (Set of 6)",
-    "description": "Elegant silk thread bangles perfect for festive occasions. Rich colors and intricate Kundan work.",
+    "description": "Elegant silk thread bangles perfect for festive occasions. Rich colors and intricate Kundan work. Available in various color combinations.",
     "price": 42.00,
-    "imageUrl": "https://picsum.photos/seed/bangles2/400/300",
+    "imageUrl": "https://picsum.photos/seed/bangles2/400/600",
     "category": "Kundan silk thread bangles",
-    "popularity": 75
+    "popularity": 75,
+     "customizable": true
   },
   {
     "id": "prod_010",
     "title": "Miniature Craft Return Gifts (Pack of 10)",
-    "description": "Assorted miniature handmade crafts, ideal as unique return gifts for parties and events.",
+    "description": "Assorted miniature handmade crafts, ideal as unique return gifts for parties and events. Items may vary.",
     "price": 55.00,
-    "imageUrl": "https://picsum.photos/seed/returngift2/400/300",
+    "imageUrl": "https://picsum.photos/seed/returngift2/400/600",
     "category": "Return gifts",
     "discount": 15,
     "popularity": 60
@@ -98,21 +103,20 @@
   {
     "id": "prod_011",
     "title": "Velvet Scrunchie Hair Tie",
-    "description": "Soft velvet hair tie that's gentle on your hair and adds a touch of luxury.",
+    "description": "Soft velvet hair tie that's gentle on your hair and adds a touch of luxury. Available in multiple colors.",
     "price": 9.50,
-    "imageUrl": "https://picsum.photos/seed/hairtie2/400/300",
+    "imageUrl": "https://picsum.photos/seed/hairtie2/400/600",
     "category": "Hair tie",
     "popularity": 90
   },
   {
     "id": "prod_012",
     "title": "Crystal Embellished Center Hair Clip",
-    "description": "Sparkling crystal center hair clip to elevate your hairstyle for special occasions.",
+    "description": "Sparkling crystal center hair clip to elevate your hairstyle for special occasions. Adds instant glamour.",
     "price": 19.99,
-    "imageUrl": "https://picsum.photos/seed/hairclip2/400/300",
+    "imageUrl": "https://picsum.photos/seed/hairclip2/400/600",
     "category": "Center hair clip",
     "soldOut": true,
     "popularity": 85
   }
 ]
-```

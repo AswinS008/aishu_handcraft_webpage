@@ -13,8 +13,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'GirlyCrafts Showcase',
-  description: 'Handmade treasures for girls',
+  title: "Aishu's Handcraft", // Updated Title
+  description: '🌺 Handmades and Customised..!!! 🎁 Return gifts..!!!', // Updated Description
 };
 
 export default function RootLayout({

@@ -2,7 +2,7 @@
 'use client'; // Make header client-side for routing and mobile menu state
 
 import Link from 'next/link';
-import { Package2, Instagram, Facebook, Twitter, Menu, X, ChevronDown } from 'lucide-react'; // Removed Search, ShoppingBag, Heart, User
+import { Package2, Instagram, Facebook, Twitter, Menu, X, ChevronDown, Phone, Mail } from 'lucide-react'; // Added Phone, Mail
 import { Button } from '@/components/ui/button';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -142,7 +142,7 @@ export default function Header() {
                         {/* Logo inside mobile menu */}
                         <div className="flex items-center gap-2 font-semibold text-primary cursor-pointer" onClick={handleLogoClick}>
                           <Package2 className="h-6 w-6 text-accent" />
-                          <span className="text-lg">GirlyCrafts</span>
+                          <span className="text-lg">Aishu's Handcraft</span>
                         </div>
                          <SheetClose asChild>
                              <Button variant="ghost" size="icon">
@@ -157,17 +157,23 @@ export default function Header() {
                       {renderNavLinks(true)}
                     </nav>
 
-                    {/* Mobile Social Links */}
-                      <div className="flex justify-center gap-6 mt-6 border-t pt-6">
-                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-muted-foreground hover:text-primary">
-                           <Instagram className="h-5 w-5" />
-                         </a>
-                         <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-muted-foreground hover:text-primary">
-                           <Facebook className="h-5 w-5" />
-                         </a>
-                         <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="text-muted-foreground hover:text-primary">
-                           <Twitter className="h-5 w-5" />
-                         </a>
+                     {/* Mobile Contact & Social Links */}
+                     <div className="border-t pt-6 mt-6 space-y-4">
+                       <p className="text-sm font-semibold text-center text-muted-foreground">Get in touch!</p>
+                        <div className="flex items-center justify-center gap-2 text-sm">
+                            <Phone className="h-4 w-4 text-accent" />
+                            <a href="tel:+919034587332" className="hover:text-primary transition-colors">9034587332</a>
+                        </div>
+                         <div className="flex items-center justify-center gap-2 text-sm">
+                            <Mail className="h-4 w-4 text-accent" />
+                            <a href="mailto:aishu_handcraft@gmail.com" className="hover:text-primary transition-colors text-xs">aishu_handcraft@gmail.com</a>
+                         </div>
+                        <div className="flex justify-center gap-6 pt-2">
+                          <a href="https://www.instagram.com/house_of_aishu?igsh=MWQ4eW53NnNuaTFnYQ%3D%3D" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-muted-foreground hover:text-primary">
+                             <Instagram className="h-5 w-5" />
+                           </a>
+                            {/* Removed Facebook and Twitter */}
+                       </div>
                      </div>
                   </div>
                 </SheetContent>
@@ -177,7 +183,8 @@ export default function Header() {
             {/* Logo */}
              <div className="flex items-center cursor-pointer" onClick={handleLogoClick}>
               <Package2 className="h-7 w-7 text-accent" />
-              <span className="ml-2 text-xl font-bold text-primary hidden sm:inline-block">GirlyCrafts</span>
+              {/* Consider replacing Package2 with a custom SVG/Image logo later */}
+              <span className="ml-2 text-xl font-bold text-primary hidden sm:inline-block">Aishu's Handcraft</span>
             </div>
         </div>
 
