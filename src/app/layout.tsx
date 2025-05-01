@@ -35,6 +35,17 @@ export const metadata: Metadata = {
   description: '🌺 Handmades and Customised..!!! 🎁 Return gifts..!!!', // Updated Description
 };
 
+// Simple fallback while initial server components load
+function GlobalLoadingFallback() {
+  return (
+     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-background">
+         {/* You can put a very basic spinner or logo here if desired */}
+         <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin"></div>
+     </div>
+  );
+}
+
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -47,11 +58,14 @@ export default function RootLayout({
        {/* Combine font variables */}
        <body className={`${poppins.variable} ${montserrat.variable} ${caveat.variable} font-sans antialiased flex flex-col min-h-screen bg-background text-foreground`}>
         <Header />
-        {/* Adjusted top padding for dynamic header: h-16 (4rem) + potential top-2 = 4.5rem + buffer */}
+        {/* Adjusted top padding for dynamic island header (h-16 = 4rem) + buffer */}
         <main className="flex-grow pt-[5rem] md:pt-[5.5rem] py-8 md:py-12"> {/* Adjusted padding-top */}
            {/* Wrap children with LoadingManager to show loading screen on route changes */}
            <LoadingManager>
-             {children}
+             {/* Add Suspense boundary around children */}
+             <Suspense fallback={<GlobalLoadingFallback />}>
+                 {children}
+             </Suspense>
            </LoadingManager>
         </main>
         <Toaster />

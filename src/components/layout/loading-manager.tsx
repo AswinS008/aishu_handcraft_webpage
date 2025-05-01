@@ -40,69 +40,88 @@ function ArtLoadingSpinner() {
 export default function LoadingManager({ children }: LoadingManagerProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [isLoading, setIsLoading] = useState(false);
-  const [isInitialLoad, setIsInitialLoad] = useState(true); // Track initial page load
+  const [isLoading, setIsLoading] = useState(true); // Start as loading initially
+  const [isClientRendered, setIsClientRendered] = useState(false); // Track client render
   const initialLoadTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const navigationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const previousPathname = useRef<string | null>(null); // Track previous pathname
+  const isInitialLoad = useRef(true); // Track if it's the very first load
 
   useEffect(() => {
-    // Clear any existing timeouts on mount/cleanup
-    if (initialLoadTimeoutRef.current) clearTimeout(initialLoadTimeoutRef.current);
+    // This effect runs only once on the client after the initial mount
+    setIsClientRendered(true);
+
+    // Show loading screen for a minimum duration on initial load
+    initialLoadTimeoutRef.current = setTimeout(() => {
+      setIsLoading(false);
+      isInitialLoad.current = false; // Mark initial load as complete
+    }, 800); // Adjust duration as needed (e.g., 800ms)
+
+    // Update previous pathname on mount
+    previousPathname.current = pathname;
+
+    return () => {
+      if (initialLoadTimeoutRef.current) clearTimeout(initialLoadTimeoutRef.current);
+    };
+  }, []); // Empty dependency array ensures this runs only once on initial client mount
+
+  useEffect(() => {
+    // This effect runs on subsequent pathname changes (page navigations)
+    if (isInitialLoad.current) {
+      // Don't run this effect during the initial load handled by the first useEffect
+      return;
+    }
+
+    // Clear previous navigation timeout if exists
     if (navigationTimeoutRef.current) clearTimeout(navigationTimeoutRef.current);
 
     const currentFullUrl = `${pathname}?${searchParams.toString()}`;
     const previousFullUrl = previousPathname.current ? `${previousPathname.current}?${searchParams.toString()}` : null;
 
-    // Determine if it's a real page navigation vs just a category change on the same page
-    const isPageNavigation = pathname !== previousPathname.current && previousPathname.current !== null;
-    const isCategoryChange = pathname === '/' && previousPathname.current === '/' && searchParams.has('category');
+    // Determine if it's a real page navigation vs just a query param change on the same page
+    const isPageNavigation = pathname !== previousPathname.current;
 
-    // Show loading only on initial load or actual page navigation
-    // Do NOT show loading for category changes within the home page
-    if (isInitialLoad || (isPageNavigation && !isCategoryChange)) {
+    // Show loading only on actual page navigation
+    if (isPageNavigation) {
       setIsLoading(true);
 
-      if (isInitialLoad) {
-        // Keep loading screen for a minimum duration on initial load
-        initialLoadTimeoutRef.current = setTimeout(() => {
-          setIsLoading(false);
-          setIsInitialLoad(false); // Mark initial load as complete
-        }, 800); // Adjust duration as needed (e.g., 800ms)
-      } else {
-        // For subsequent PAGE navigations
-        navigationTimeoutRef.current = setTimeout(() => {
-          setIsLoading(false);
-        }, 400); // Adjust duration (e.g., 400ms)
-      }
+      // Set a timeout to hide the loader after a short duration for navigation
+      navigationTimeoutRef.current = setTimeout(() => {
+        setIsLoading(false);
+      }, 400); // Adjust duration for navigation (e.g., 400ms)
     } else {
-        // If it's not initial load and not a page navigation (e.g., category change),
-        // ensure loading is false.
+        // If it's not a page navigation (e.g., category change), ensure loading is false.
+        // This prevents the loader from flashing during category changes.
         setIsLoading(false);
     }
 
     // Update previous pathname for the next effect run
     previousPathname.current = pathname;
 
-    // Cleanup function
+    // Cleanup function for navigation timeout
     return () => {
-      if (initialLoadTimeoutRef.current) clearTimeout(initialLoadTimeoutRef.current);
       if (navigationTimeoutRef.current) clearTimeout(navigationTimeoutRef.current);
     };
-  // Depend ONLY on pathname to detect actual page navigations.
-  // SearchParams changes trigger re-renders but shouldn't trigger the main loading effect here.
-  }, [pathname, isInitialLoad]); // Removed searchParams dependency
+  // Depend ONLY on pathname to detect actual page navigations after the initial load.
+  }, [pathname]); // Depend on pathname
 
   return (
     <>
       <AnimatePresence mode="wait">
-        {isLoading && <ArtLoadingSpinner key="loading" />}
+        {/* Show loader if loading OR if it's the initial render on the client */}
+        {(isLoading || !isClientRendered) && <ArtLoadingSpinner key="loading" />}
       </AnimatePresence>
-      {/* Render children immediately, loading spinner overlays it */}
-       {/* Use a key based only on pathname to ensure page content remounts on navigation */}
-       <div key={pathname}>
-           {children}
-       </div>
+
+      {/* Render children only after the client has rendered and initial load is complete */}
+      {isClientRendered && !isLoading && (
+        <div key={pathname}> {/* Use key based on pathname to ensure content remounts */}
+          {children}
+        </div>
+      )}
+      {/* Optionally, render children immediately but hidden while loading */}
+      {/* <div style={{ visibility: isLoading ? 'hidden' : 'visible' }} key={pathname}>
+          {children}
+      </div> */}
     </>
   );
 }
