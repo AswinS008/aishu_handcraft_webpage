@@ -10,34 +10,34 @@
 /* Apply base styles */
 @layer base {
   :root {
-     /* Keep your existing color theme or adjust to better match ShionHouse if needed */
-    --background: 60 56% 91%; /* Light Beige */
-    --foreground: 60 10% 20%; /* Dark contrasting color */
-    --card: 60 56% 93%; /* Slightly lighter Beige */
-    --card-foreground: 60 10% 20%;
+    /* Option 1: Festive & Traditional (Warm & Luxurious) */
+    --background: 60 56% 91%;        /* Cream/Off-White */
+    --foreground: 60 10% 15%;        /* Dark contrast */
+    --card: 60 56% 93%;              /* Slightly lighter Cream/Off-White */
+    --card-foreground: 60 10% 15%;   /* Dark contrast */
     --popover: 60 56% 93%;
-    --popover-foreground: 60 10% 20%;
-    --primary: 351 80% 70%; /* Pastel Pink - Adjusted for actionability */
-    --primary-foreground: 351 50% 15%; /* Dark contrast for Pink */
-    --secondary: 60 30% 96%; /* Subtle Gray/Beige */
-    --secondary-foreground: 60 10% 30%;
-    --muted: 60 40% 94%; /* Lighter neutral */
-    --muted-foreground: 60 10% 45%; /* Grayer neutral */
-    --accent: 16 100% 66%; /* Coral */
-    --accent-foreground: 0 0% 100%; /* White for contrast on Coral */
+    --popover-foreground: 60 10% 15%;
+    --primary: 330 100% 71%;         /* Rani Pink */
+    --primary-foreground: 330 50% 15%; /* Dark contrast for Pink */
+    --secondary: 36 100% 60%;         /* Saffron */
+    --secondary-foreground: 36 60% 20%; /* Dark contrast for Saffron */
+    --muted: 60 40% 94%;              /* Lighter neutral */
+    --muted-foreground: 60 10% 45%;   /* Grayer neutral */
+    --accent: 51 100% 50%;            /* Gold */
+    --accent-foreground: 51 100% 15%;   /* Dark contrast for Gold */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 60 30% 88%; /* Light Gray/Beige */
+    --border: 60 30% 88%;             /* Slightly darker Cream/Off-White */
     --input: 60 30% 88%;
-    --ring: 351 90% 60%; /* Pink focus ring */
-    --chart-1: 12 76% 61%;
+    --ring: 330 100% 71%;            /* Primary color (Rani Pink) focus ring */
+    --chart-1: 12 76% 61%;           /* Keep existing chart colors or adjust */
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem; /* Adjust border radius if needed */
+    --radius: 0.5rem;                 /* Adjust border radius if needed */
 
-     /* Dark Theme (Optional - adjust if needed) */
+     /* Dark Theme (Optional - adjust if needed, keeping existing for now) */
      --sidebar-background: 0 0% 98%;
      --sidebar-foreground: 240 5.3% 26.1%;
      --sidebar-primary: 240 5.9% 10%;
@@ -49,26 +49,26 @@
   }
 
   .dark {
-    /* Define dark mode variables if you intend to use it */
+    /* Define dark mode variables if you intend to use it - Keep existing for now */
     --background: 30 10% 15%; /* Dark Gray/Brown */
     --foreground: 60 56% 91%; /* Light Beige */
     --card: 30 10% 18%;
     --card-foreground: 60 56% 91%;
     --popover: 30 10% 18%;
     --popover-foreground: 60 56% 91%;
-    --primary: 16 70% 70%; /* Desaturated Coral */
-    --primary-foreground: 16 20% 10%; /* Dark contrast */
-    --secondary: 30 10% 25%;
-    --secondary-foreground: 60 56% 91%;
+    --primary: 330 80% 75%; /* Lighter Rani Pink for dark */
+    --primary-foreground: 330 20% 10%; /* Dark contrast */
+    --secondary: 36 80% 65%; /* Lighter Saffron for dark */
+    --secondary-foreground: 36 30% 15%; /* Dark contrast */
     --muted: 30 10% 22%;
     --muted-foreground: 60 10% 65%;
-    --accent: 351 60% 80%; /* Desaturated Pink */
-    --accent-foreground: 351 20% 10%; /* Dark contrast */
+    --accent: 51 80% 60%; /* Lighter Gold for dark */
+    --accent-foreground: 51 30% 10%; /* Dark contrast */
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 30 10% 28%;
     --input: 30 10% 28%;
-    --ring: 16 80% 60%; /* Coral focus ring */
+    --ring: 330 90% 65%; /* Rani Pink focus ring */
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
