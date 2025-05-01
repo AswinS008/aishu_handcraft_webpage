@@ -1,12 +1,11 @@
 
-'use client'; // Keep as client component if needed for other client-side logic
-
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Frown } from 'lucide-react'; // Example icon
 
+// Removed 'use client' as it's not strictly needed for this basic 404 page
+// and might interfere with static generation or cause Suspense boundary issues during build.
 export default function NotFound() {
-  // Removed useSearchParams hook
 
   return (
     <div className="container mx-auto flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
@@ -18,7 +17,7 @@ export default function NotFound() {
       <Button asChild>
         <Link href="/">Go Back Home</Link>
       </Button>
-      {/* If you needed the path:
+      {/* If you needed the path (requires client-side logic, hence 'use client'):
       <p className="mt-4 text-sm text-muted-foreground">
         Attempted path: {typeof window !== 'undefined' ? window.location.pathname : ''}
       </p>
