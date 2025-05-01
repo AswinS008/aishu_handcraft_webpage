@@ -10,6 +10,8 @@ import { motion } from 'framer-motion';
 
 // Main Contact Page Content Component
 export default function ContactPage() {
+    // Removed useSearchParams hook
+
     const contactInfoVariants = {
         hidden: { opacity: 0, y: 20 },
         visible: (i: number) => ({
