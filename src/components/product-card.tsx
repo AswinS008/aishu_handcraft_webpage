@@ -52,7 +52,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* Badges */}
         <div className="absolute top-2 left-2 md:top-3 md:left-3 z-10 flex flex-col gap-1"> {/* Adjusted padding for mobile */}
            {product.soldOut && (
-             <Badge variant="destructive" className="px-1.5 py-0.5 md:px-2 md:py-0.5 text-[10px] md:text-xs animate-pulse">Sold Out</Badge> {/* Smaller text on mobile */}
+             <Badge variant="destructive" className="px-1.5 py-0.5 md:px-2 md:py-0.5 text-[10px] md:text-xs animate-pulse">Sold Out</Badge>
            )}
            {product.discount && !product.soldOut && (
              <Badge variant="secondary" className="px-1.5 py-0.5 md:px-2 md:py-0.5 text-[10px] md:text-xs bg-accent text-accent-foreground">{product.discount}% OFF</Badge>
