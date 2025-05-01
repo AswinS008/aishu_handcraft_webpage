@@ -6,7 +6,7 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Toaster } from "@/components/ui/toaster";
 import { Suspense } from 'react'; // Keep Suspense import
-import LoadingManager from '@/components/layout/loading-manager'; // Import LoadingManager
+// import LoadingManager from '@/components/layout/loading-manager'; // Import LoadingManager - Temporarily commented out
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -33,9 +33,9 @@ export default function RootLayout({
         {/* Keeping it simple for now, adjust if overlap occurs */}
         <main className="flex-grow pt-[7rem] md:pt-[7rem] py-8 md:py-12"> {/* Simplified padding */}
            {/* Wrap children with LoadingManager to show loading screen on route changes */}
-           <LoadingManager>
+           {/* <LoadingManager> */}
              {children}
-           </LoadingManager>
+           {/* </LoadingManager> */}
         </main>
         <Toaster />
         <Footer />
