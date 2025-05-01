@@ -27,8 +27,10 @@ export default function CategoryTabs({ categories }: CategoryTabsProps) {
   };
 
   return (
-    <section className="border-b border-border sticky top-16 bg-background/95 backdrop-blur-sm z-40 mb-8 shadow-sm"> {/* Make tabs sticky below header */}
-        <div className="container mx-auto px-4 overflow-x-auto py-3">
+    // Adjusted sticky top to account for dynamic island header (h-16 + top-2 padding)
+    <section className="border-b border-border sticky top-[calc(4rem+0.5rem)] bg-background/95 backdrop-blur-sm z-40 mb-8 shadow-sm">
+        {/* Removed overflow-x-auto */}
+        <div className="container mx-auto px-4 py-3">
             <div className="flex justify-center items-center space-x-3 sm:space-x-6 whitespace-nowrap">
              {categories.map((category) => (
                  <Button

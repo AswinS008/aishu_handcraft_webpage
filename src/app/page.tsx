@@ -7,6 +7,7 @@ import type { Product } from '@/lib/types';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react'; // Import Suspense
 import Banner from '@/components/banner'; // Import Banner
+import CategoryGrid from '@/components/category-grid'; // Import CategoryGrid
 import CategoryTabs from '@/components/category-tabs'; // Import CategoryTabs
 
 // Get unique categories from products
@@ -26,20 +27,27 @@ function HomePageContent() {
   // Type assertion for the imported JSON data
   const products = productsData as Product[];
   const categories = getCategories(products);
-
-  // Determine if a specific category is selected (or if search is active)
-  const showProductGrid = category !== 'All' || searchTerm;
+  // Filter out 'All' for the grid display
+  const gridCategories = categories.filter(cat => cat !== 'All');
 
   return (
     <>
        {/* Banner is always shown */}
        <Banner />
 
-       {/* Category Tabs placed below banner */}
+       {/* NEW: Category Grid Section */}
+       <section className="container mx-auto px-4 py-8 md:py-12">
+            <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center text-primary animate-in fade-in duration-500">
+                Shop By Category
+            </h2>
+            <CategoryGrid categories={gridCategories} />
+       </section>
+
+       {/* Category Tabs placed below category grid */}
        <CategoryTabs categories={categories} />
 
        {/* Product Grid Section */}
-      <section className="container mx-auto px-4 py-8 md:py-12">
+      <section className="container mx-auto px-4 pt-8 md:pt-12"> {/* Removed py, add pt */}
         {/* Optional: Title for the products section - Hide when 'All' is selected */}
          {category !== 'All' && (
            <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center text-primary animate-in fade-in duration-500">

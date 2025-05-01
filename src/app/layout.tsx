@@ -23,12 +23,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // Added suppressHydrationWarning back as removing it didn't fix the previous hydration issue,
+    // and it's generally useful for things like theme switching or extensions modifying HTML.
     <html lang="en" suppressHydrationWarning={true}>
       <body className={`${poppins.className} antialiased flex flex-col min-h-screen bg-background text-foreground`}>
         <Header />
-        {/* Add padding top to account for fixed/sticky header AND sticky category tabs */}
-        {/* Approx height of header (h-16 = 4rem) + height of tabs (py-3 + button height ~ 3rem) + some buffer */}
-        <main className="flex-grow pt-[8rem] md:pt-[7.5rem] py-8 md:py-12"> {/* Adjusted padding-top */}
+        {/* Re-evaluate padding: Header (h-16 = 4rem) + Tabs (~3rem) + buffer */}
+        {/* Keeping it simple for now, adjust if overlap occurs */}
+        <main className="flex-grow pt-[7rem] md:pt-[7rem] py-8 md:py-12"> {/* Simplified padding */}
           {children}
         </main>
         <Toaster />
