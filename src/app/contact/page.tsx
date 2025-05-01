@@ -1,24 +1,15 @@
 
-'use client'; // Ensure this page runs on the client
+'use client'; // Ensure this page runs on the client for animations
 
-import React, { Suspense } from 'react'; // Import Suspense
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MapPin, Phone, Mail, Instagram } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
-// Simple Loading Fallback for Suspense
-function ContactLoadingFallback() {
-    return (
-        <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-        </div>
-    );
-}
-
-
-function ContactPageContent() {
+// Main Contact Page Content Component
+export default function ContactPage() {
     const contactInfoVariants = {
         hidden: { opacity: 0, y: 20 },
         visible: (i: number) => ({
@@ -110,7 +101,7 @@ function ContactPageContent() {
                            {/* Decorative Image Placeholder (Craft Theme) */}
                            <div className="relative h-48 w-full rounded-t-md overflow-hidden bg-gradient-to-r from-teal-100 to-blue-100 mb-8">
                                <Image
-                                   src="/images/contact-banner-craft.jpg"
+                                   src="/images/contact-banner-craft.jpg" // Ensure this image exists in public/images
                                    alt="Contact background with craft elements"
                                    fill
                                    className="object-cover opacity-70"
@@ -247,14 +238,5 @@ function ContactPageContent() {
 
           </section>
         </>
-    );
-}
-
-// Wrap the main content in Suspense
-export default function ContactPage() {
-    return (
-        <Suspense fallback={<ContactLoadingFallback />}>
-            <ContactPageContent />
-        </Suspense>
     );
 }
