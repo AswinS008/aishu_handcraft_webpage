@@ -1,0 +1,9 @@
+# This project uses Node.js and npm (or yarn/pnpm).
+# Dependencies are managed in the package.json file.
+# This requirements.txt file is typically used for Python projects.
+# To install dependencies for this project, run:
+# npm install
+# or
+# yarn install
+# or
+# pnpm install
