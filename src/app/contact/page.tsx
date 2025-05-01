@@ -35,60 +35,66 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-8 flex flex-col items-center"> {/* Center content */}
+      {/* Main Content Section */}
+      <section className="relative container mx-auto px-4 py-8 flex flex-col items-center">
+
+          {/* Subtle Background Decor Elements */}
+          <div className="absolute top-20 -left-10 w-40 h-40 bg-pink-100/30 rounded-full blur-3xl opacity-50 -z-10 animate-pulse delay-100"></div>
+          <div className="absolute bottom-40 -right-10 w-32 h-32 bg-blue-100/30 rounded-full blur-3xl opacity-50 -z-10 animate-pulse delay-300"></div>
+
 
          {/* Contact Information Card - Centered */}
-          <div className="w-full max-w-2xl mb-16 animate-in fade-in slide-in-from-bottom duration-500 delay-200">
+          <div className="w-full max-w-3xl mb-16 animate-in fade-in slide-in-from-bottom duration-500 delay-200"> {/* Increased max-width */}
               <Card className="w-full shadow-lg border-border/50">
                   <CardHeader className="pb-4"> {/* Reduced padding */}
                       <CardTitle className="text-2xl font-semibold text-foreground text-center">Get In Touch</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-0 text-sm pt-0"> {/* Removed space-y, Added pt-0 */}
 
-                      {/* NEW: Decorative Image Placeholder (Craft Theme) */}
-                       <div className="relative h-40 w-full rounded-t-md overflow-hidden bg-gradient-to-r from-pink-100 to-blue-100 mb-6">
+                      {/* Decorative Image Placeholder (Craft Theme) */}
+                       <div className="relative h-48 w-full rounded-t-md overflow-hidden bg-gradient-to-r from-pink-100 to-blue-100 mb-8"> {/* Increased height and margin */}
                            <Image
-                                src="https://picsum.photos/seed/contactcrafts/600/200" // New image seed
-                                alt="Handcrafts background"
+                                src="https://picsum.photos/seed/contactcrafttools/600/250" // New seed for relevant image
+                                alt="Handcraft tools and materials"
                                 fill
-                                className="object-cover opacity-80" // Slightly less opacity
-                                data-ai-hint="handmade crafts tools thread beads" // Updated hint
+                                className="object-cover opacity-70" // Slightly less opacity
+                                data-ai-hint="handmade crafts tools thread beads yarn" // Updated hint
                             />
                            {/* Removed overlay text */}
                        </div>
 
                       {/* Contact Details Grid */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 px-4 pb-6"> {/* Added grid */}
-                          <div className="flex items-start gap-3">
-                            <MapPin className="h-5 w-5 mt-1 text-accent flex-shrink-0" />
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8 px-4 sm:px-8 pb-8"> {/* Increased gap and padding */}
+                          <div className="flex items-start gap-3 animate-in fade-in slide-in-from-left duration-500 delay-300">
+                            <MapPin className="h-6 w-6 mt-0.5 text-accent flex-shrink-0" />
                             <div>
-                              <p className="font-medium text-foreground">Address:</p>
+                              <p className="font-semibold text-foreground mb-1">Address:</p>
                               <p className="text-muted-foreground">359/4 D.D.Road,</p>
                               <p className="text-muted-foreground">Arappalayam,</p>
                               <p className="text-muted-foreground">Madurai - 625016</p>
                             </div>
                           </div>
-                          <div className="flex items-start gap-3"> {/* Changed to items-start */}
-                            <Phone className="h-5 w-5 mt-1 text-accent flex-shrink-0" />
+                          <div className="flex items-start gap-3 animate-in fade-in slide-in-from-right duration-500 delay-400">
+                            <Phone className="h-6 w-6 mt-0.5 text-accent flex-shrink-0" />
                             <div>
-                              <p className="font-medium text-foreground">Phone / WhatsApp:</p>
+                              <p className="font-semibold text-foreground mb-1">Phone / WhatsApp:</p>
                               <a href="tel:+919034587332" className="text-muted-foreground hover:text-primary transition-colors block">9034587332</a>
-                               <p className="text-xs text-muted-foreground">(Click to call or message)</p>
+                               <p className="text-xs text-muted-foreground mt-1">(Click to call or message)</p>
                             </div>
                           </div>
-                          <div className="flex items-start gap-3"> {/* Changed to items-start */}
-                            <Mail className="h-5 w-5 mt-1 text-accent flex-shrink-0" />
+                          <div className="flex items-start gap-3 animate-in fade-in slide-in-from-left duration-500 delay-500">
+                            <Mail className="h-6 w-6 mt-0.5 text-accent flex-shrink-0" />
                             <div>
-                              <p className="font-medium text-foreground">Email:</p>
+                              <p className="font-semibold text-foreground mb-1">Email:</p>
                               <a href="mailto:aishu_handcraft@gmail.com" className="text-muted-foreground hover:text-primary transition-colors break-all">aishu_handcraft@gmail.com</a>
                             </div>
                           </div>
-                          <div className="flex items-start gap-3"> {/* Changed to items-start */}
-                            <Instagram className="h-5 w-5 mt-1 text-accent flex-shrink-0" />
+                          <div className="flex items-start gap-3 animate-in fade-in slide-in-from-right duration-500 delay-600">
+                            <Instagram className="h-6 w-6 mt-0.5 text-accent flex-shrink-0" />
                             <div>
-                              <p className="font-medium text-foreground">Instagram:</p>
+                              <p className="font-semibold text-foreground mb-1">Instagram:</p>
                               <a href="https://www.instagram.com/house_of_aishu?igsh=MWQ4eW53NnNuaTFnYQ%3D%3D" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">@house_of_aishu</a>
-                               <p className="text-xs text-muted-foreground">(DM for orders & enquiries)</p>
+                               <p className="text-xs text-muted-foreground mt-1">(DM for orders & enquiries)</p>
                             </div>
                           </div>
                       </div>
@@ -98,7 +104,7 @@ export default function ContactPage() {
           </div>
 
           {/* FAQ Section */}
-           <div id="faq-placeholder" className="w-full max-w-2xl mb-16 animate-in fade-in slide-in-from-bottom duration-500 delay-400">
+           <div id="faq-placeholder" className="w-full max-w-3xl mb-16 animate-in fade-in slide-in-from-bottom duration-500 delay-400"> {/* Increased max-width */}
               <h2 className="text-2xl font-semibold text-foreground text-center mb-6">Frequently Asked Questions</h2>
                <Accordion type="single" collapsible className="w-full bg-card p-4 sm:p-6 rounded-lg shadow-sm border border-border/50">
                  <AccordionItem value="item-1">
@@ -132,7 +138,7 @@ export default function ContactPage() {
            <div className="w-full max-w-4xl animate-in fade-in slide-in-from-bottom duration-500 delay-600"> {/* Adjusted delay and width */}
                 <h2 className="text-2xl font-semibold text-foreground text-center mb-6">Our Location (Madurai)</h2>
                  {/* Updated Google Maps iframe */}
-                 <div className="bg-secondary rounded-lg h-64 md:h-96 w-full flex items-center justify-center text-muted-foreground border border-border/50 shadow-lg overflow-hidden"> {/* Added shadow-lg */}
+                 <div className="bg-secondary rounded-lg h-80 md:h-96 w-full flex items-center justify-center text-muted-foreground border border-border/50 shadow-lg overflow-hidden"> {/* Increased height, Added shadow-lg */}
                       <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3930.055386545364!2d78.10196707488334!3d9.93058219017507!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b00c5b8c5b127ff%3A0xf1565e4cb8b61899!2sArappalayam%2C%20Madurai%2C%20Tamil%20Nadu%20625016!5e0!3m2!1sen!2sin!4v1721469886188!5m2!1sen!2sin" // Updated Map Embed URL
                         width="100%"
