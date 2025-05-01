@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-// Removed Card imports as layout is handled by the page
 import { useToast } from "@/hooks/use-toast";
 import { Send } from "lucide-react";
 import { useState } from 'react';
@@ -32,6 +31,7 @@ type FormData = z.infer<typeof formSchema>;
 
 export default function ContactForm() {
   const { toast } = useToast();
+  // Keep isSubmitting to prevent double-clicks, though mailto is fast
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<FormData>({
@@ -44,26 +44,33 @@ export default function ContactForm() {
     },
   });
 
-  // Placeholder submit handler
+  // Updated submit handler to use mailto:
   async function onSubmit(values: FormData) {
     setIsSubmitting(true);
-    console.log("Form Submitted:", values);
 
-    // Simulate network request
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    const mailtoSubject = encodeURIComponent(`Contact Form: ${values.subject}`);
+    const mailtoBody = encodeURIComponent(
+      `Name: ${values.name}\nEmail: ${values.email}\n\nMessage:\n${values.message}`
+    );
+    const mailtoHref = `mailto:aishu_handcraft@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
 
-    // In a real app, you would send this data to a server/API endpoint
+    // Attempt to open the mail client
+    window.location.href = mailtoHref;
+
+    // Display success message immediately - sending happens in user's mail client
     toast({
-      title: "Message Sent Successfully!",
-      description: "Thank you for reaching out. We'll get back to you as soon as possible.",
-      variant: "default",
+      title: "Opening Email Client",
+      description: "Please review and send the email using your default mail application.",
+      variant: "default", // Use default variant for informational message
     });
-    form.reset(); // Reset form after successful submission
-    setIsSubmitting(false);
+
+    // Reset form after attempting to open mail client
+    form.reset();
+    // Reset submitting state shortly after, as mailto is quick
+    setTimeout(() => setIsSubmitting(false), 500);
   }
 
   return (
-    // Removed the Card wrapper. Styling/layout now controlled by the parent page.
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -78,7 +85,7 @@ export default function ContactForm() {
                        placeholder="Enter your name"
                        {...field}
                        aria-required="true"
-                       className="bg-secondary/50 focus:bg-background h-11 text-sm" // Style like ShionHouse
+                       className="bg-secondary/50 focus:bg-background h-11 text-sm"
                      />
                    </FormControl>
                    <FormMessage />
@@ -132,7 +139,7 @@ export default function ContactForm() {
               <FormControl>
                 <Textarea
                   placeholder="Write your message here..."
-                  className="min-h-[150px] bg-secondary/50 focus:bg-background text-sm" // Style like ShionHouse
+                  className="min-h-[150px] bg-secondary/50 focus:bg-background text-sm"
                   {...field}
                   aria-required="true"
                 />
@@ -142,16 +149,16 @@ export default function ContactForm() {
           )}
         />
         <motion.div
-           whileHover={{ scale: 1.03 }} // Subtle hover effect
-           whileTap={{ scale: 0.97 }}   // Subtle tap effect
+           whileHover={{ scale: 1.03 }}
+           whileTap={{ scale: 0.97 }}
         >
           <Button
              type="submit"
-             className="w-full md:w-auto px-8 py-3 h-auto bg-accent hover:bg-accent/90 text-accent-foreground rounded-full text-base font-semibold transition-transform duration-200 ease-in-out" // ShionHouse button style
+             className="w-full md:w-auto px-8 py-3 h-auto bg-accent hover:bg-accent/90 text-accent-foreground rounded-full text-base font-semibold transition-transform duration-200 ease-in-out"
              disabled={isSubmitting}
           >
             <Send className="mr-2 h-4 w-4" />
-            {isSubmitting ? 'Sending...' : 'Send Message'}
+            {isSubmitting ? 'Preparing Email...' : 'Send Message via Email'}
           </Button>
          </motion.div>
       </form>
