@@ -1,3 +1,4 @@
+
 'use client'; // Make header client-side for routing and mobile menu state
 
 import Link from 'next/link';
@@ -17,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import AishuLogoIcon from '@/components/icons/aishu-logo-icon'; // Import the new custom icon
+import { cn } from '@/lib/utils'; // Import cn utility
 
 // Get unique categories from products (can be reused or moved to a util)
 const getCategories = (products: Product[]): string[] => {
@@ -41,6 +43,8 @@ export default function Header() {
       setIsScrolled(window.scrollY > 10); // Adjust threshold as needed
     };
     window.addEventListener('scroll', handleScroll);
+    // Initial check in case the page loads already scrolled
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -123,7 +127,13 @@ export default function Header() {
        animate={{ y: 0 }}
        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
      >
-      <div className={`flex h-16 items-center justify-between gap-4 px-4 md:px-6 transition-all duration-300 ease-in-out ${isScrolled ? 'bg-background/90 backdrop-blur-md shadow-lg border border-border/40 rounded-full' : 'bg-background border-b border-border/40' }`}>
+      {/* Apply backdrop blur when scrolled */}
+      <div className={cn(
+        "flex h-16 items-center justify-between gap-4 px-4 md:px-6 transition-all duration-300 ease-in-out",
+        isScrolled
+          ? 'bg-background/80 backdrop-blur-md shadow-lg border border-border/40 rounded-full' // Added backdrop-blur-md and reduced opacity
+          : 'bg-background border-b border-border/40'
+      )}>
 
         {/* Left Section: Mobile Menu Trigger (always present for layout consistency) & Logo */}
         <div className="flex items-center gap-2">
@@ -142,7 +152,8 @@ export default function Header() {
                         {/* Logo inside mobile menu */}
                         <div className="flex items-center gap-2 font-semibold text-primary cursor-pointer" onClick={handleLogoClick}>
                           <AishuLogoIcon className="h-6 w-6 text-accent" /> {/* Use new icon */}
-                          <span className="text-lg">Aishu's Handcraft</span>
+                           {/* Apply Caveat font to the logo text */}
+                           <span className="text-lg font-caveat">Aishu's Handcraft</span>
                         </div>
                          <SheetClose asChild>
                              <Button variant="ghost" size="icon">
@@ -183,7 +194,8 @@ export default function Header() {
             {/* Logo */}
              <div className="flex items-center cursor-pointer" onClick={handleLogoClick}>
               <AishuLogoIcon className="h-7 w-7 text-accent" /> {/* Use new icon */}
-              <span className="ml-2 text-xl font-bold text-primary hidden sm:inline-block">Aishu's Handcraft</span>
+               {/* Apply Caveat font to the logo text */}
+               <span className="ml-2 text-2xl font-bold text-primary hidden sm:inline-block font-caveat">Aishu's Handcraft</span>
             </div>
         </div>
 

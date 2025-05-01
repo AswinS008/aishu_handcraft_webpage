@@ -1,17 +1,34 @@
 
 import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
+import { Poppins, Montserrat, Caveat } from 'next/font/google'; // Import Montserrat and Caveat
 import './globals.css';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Toaster } from "@/components/ui/toaster";
-import { Suspense } from 'react'; // Keep Suspense import
-// import LoadingManager from '@/components/layout/loading-manager'; // Import LoadingManager - Temporarily commented out
+import { Suspense } from 'react';
+import LoadingManager from '@/components/layout/loading-manager'; // Import LoadingManager
 
+// Default font (adjust weights as needed)
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-poppins', // Assign CSS variable for Poppins
 });
+
+// Secondary/Heading font (adjust weights as needed)
+const montserrat = Montserrat({
+    subsets: ['latin'],
+    weight: ['300', '400', '500', '600', '700'],
+    variable: '--font-montserrat', // Assign CSS variable for Montserrat
+});
+
+// Funky/Logo font
+const caveat = Caveat({
+    subsets: ['latin'],
+    weight: ['400', '500', '600', '700'], // Choose weights
+    variable: '--font-caveat', // Assign CSS variable for Caveat
+});
+
 
 export const metadata: Metadata = {
   title: "Aishu's Handcraft", // Updated Title
@@ -27,15 +44,16 @@ export default function RootLayout({
     // Added suppressHydrationWarning back as removing it didn't fix the previous hydration issue,
     // and it's generally useful for things like theme switching or extensions modifying HTML.
     <html lang="en" suppressHydrationWarning={true}>
-      <body className={`${poppins.className} antialiased flex flex-col min-h-screen bg-background text-foreground`}>
+       {/* Combine font variables */}
+       <body className={`${poppins.variable} ${montserrat.variable} ${caveat.variable} font-sans antialiased flex flex-col min-h-screen bg-background text-foreground`}>
         <Header />
         {/* Re-evaluate padding: Header (h-16 = 4rem) + Tabs (~3rem) + buffer */}
         {/* Keeping it simple for now, adjust if overlap occurs */}
         <main className="flex-grow pt-[7rem] md:pt-[7rem] py-8 md:py-12"> {/* Simplified padding */}
            {/* Wrap children with LoadingManager to show loading screen on route changes */}
-           {/* <LoadingManager> */}
+           <LoadingManager>
              {children}
-           {/* </LoadingManager> */}
+           </LoadingManager>
         </main>
         <Toaster />
         <Footer />

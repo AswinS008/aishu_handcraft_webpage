@@ -44,36 +44,54 @@ export default function LoadingManager({ children }: LoadingManagerProps) {
   const [isInitialLoad, setIsInitialLoad] = useState(true); // Track initial page load
   const initialLoadTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const navigationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const previousPathname = useRef<string | null>(null); // Track previous pathname
 
   useEffect(() => {
     // Clear any existing timeouts on mount/cleanup
     if (initialLoadTimeoutRef.current) clearTimeout(initialLoadTimeoutRef.current);
     if (navigationTimeoutRef.current) clearTimeout(navigationTimeoutRef.current);
 
-    if (isInitialLoad) {
-        setIsLoading(true);
+    const currentFullUrl = `${pathname}?${searchParams.toString()}`;
+    const previousFullUrl = previousPathname.current ? `${previousPathname.current}?${searchParams.toString()}` : null;
+
+    // Determine if it's a real page navigation vs just a category change on the same page
+    const isPageNavigation = pathname !== previousPathname.current && previousPathname.current !== null;
+    const isCategoryChange = pathname === '/' && previousPathname.current === '/' && searchParams.has('category');
+
+    // Show loading only on initial load or actual page navigation
+    // Do NOT show loading for category changes within the home page
+    if (isInitialLoad || (isPageNavigation && !isCategoryChange)) {
+      setIsLoading(true);
+
+      if (isInitialLoad) {
         // Keep loading screen for a minimum duration on initial load
         initialLoadTimeoutRef.current = setTimeout(() => {
-            setIsLoading(false);
-            setIsInitialLoad(false); // Mark initial load as complete
+          setIsLoading(false);
+          setIsInitialLoad(false); // Mark initial load as complete
         }, 800); // Adjust duration as needed (e.g., 800ms)
-    } else {
-        // For subsequent navigations
-        setIsLoading(true);
-        // Set a shorter timeout to hide loading screen after navigation starts
-        // This assumes content loads relatively fast after navigation begins
+      } else {
+        // For subsequent PAGE navigations
         navigationTimeoutRef.current = setTimeout(() => {
-            setIsLoading(false);
+          setIsLoading(false);
         }, 400); // Adjust duration (e.g., 400ms)
+      }
+    } else {
+        // If it's not initial load and not a page navigation (e.g., category change),
+        // ensure loading is false.
+        setIsLoading(false);
     }
+
+    // Update previous pathname for the next effect run
+    previousPathname.current = pathname;
 
     // Cleanup function
     return () => {
-        if (initialLoadTimeoutRef.current) clearTimeout(initialLoadTimeoutRef.current);
-        if (navigationTimeoutRef.current) clearTimeout(navigationTimeoutRef.current);
+      if (initialLoadTimeoutRef.current) clearTimeout(initialLoadTimeoutRef.current);
+      if (navigationTimeoutRef.current) clearTimeout(navigationTimeoutRef.current);
     };
-  // Depend on pathname and searchParams to detect route changes
-  }, [pathname, searchParams, isInitialLoad]);
+  // Depend ONLY on pathname to detect actual page navigations.
+  // SearchParams changes trigger re-renders but shouldn't trigger the main loading effect here.
+  }, [pathname, isInitialLoad]); // Removed searchParams dependency
 
   return (
     <>
@@ -81,7 +99,8 @@ export default function LoadingManager({ children }: LoadingManagerProps) {
         {isLoading && <ArtLoadingSpinner key="loading" />}
       </AnimatePresence>
       {/* Render children immediately, loading spinner overlays it */}
-       <div key={`${pathname}?${searchParams.toString()}`}>
+       {/* Use a key based only on pathname to ensure page content remounts on navigation */}
+       <div key={pathname}>
            {children}
        </div>
     </>

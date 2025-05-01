@@ -1,6 +1,6 @@
 
 /* Ensure @import is at the very top */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap'); /* Added Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Caveat:wght@400;500;600;700&display=swap'); /* Added Montserrat & Caveat */
 
 
 @tailwind base;
@@ -96,6 +96,12 @@
      font-family: 'Poppins', 'Montserrat', sans-serif; /* Use Poppins for headings */
      @apply font-semibold text-foreground; /* Default heading style */
   }
+
+   /* Apply Caveat font to specific elements if needed via class */
+   .font-caveat {
+     font-family: 'Caveat', cursive;
+   }
+
 }
 
 /* Add custom animations & utilities */
