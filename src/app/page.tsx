@@ -5,7 +5,7 @@ import ProductGrid from '@/components/product-grid';
 import productsData from '@/data/products.json';
 import type { Product } from '@/lib/types';
 import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react'; // Import Suspense
+// import { Suspense } from 'react'; // No longer need Suspense here
 import Banner from '@/components/banner'; // Import Banner
 import CategoryGrid from '@/components/category-grid'; // Import CategoryGrid
 import CategoryTabs from '@/components/category-tabs'; // Import CategoryTabs
@@ -67,22 +67,21 @@ function HomePageContent() {
   );
 }
 
-// Main page component - Use Suspense to wrap the client component
+// Main page component - No longer needs Suspense for searchParams
 export default function Home() {
- return (
-    // Suspense is required because HomePageContent reads searchParams
-    <Suspense fallback={<LoadingSpinner />}>
-       <HomePageContent />
-    </Suspense>
- );
+  // HomePageContent reads searchParams, so it remains a client component,
+  // but the Suspense boundary is handled by the global LoadingManager.
+  return <HomePageContent />;
 }
 
-// Simple loading spinner component
+// Removed LoadingSpinner component as it's handled globally now
+/*
 function LoadingSpinner() {
  return (
-    <div className="flex justify-center items-center h-96"> {/* Increased height */}
+    <div className="flex justify-center items-center h-96">
       <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
       <span className="sr-only">Loading...</span>
     </div>
  );
 }
+*/

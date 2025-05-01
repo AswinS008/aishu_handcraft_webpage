@@ -54,11 +54,11 @@ export default function ContactPage() {
                       {/* Decorative Image Placeholder (Craft Theme) */}
                        <div className="relative h-48 w-full rounded-t-md overflow-hidden bg-gradient-to-r from-pink-100 to-blue-100 mb-8"> {/* Increased height and margin */}
                            <Image
-                                src="https://picsum.photos/seed/contactcrafttools/600/250" // New seed for relevant image
-                                alt="Handcraft tools and materials"
+                                src="https://picsum.photos/seed/contactcraftmail/600/250" // New seed for relevant image (e.g., mail, desk)
+                                alt="Contact background with craft elements"
                                 fill
                                 className="object-cover opacity-70" // Slightly less opacity
-                                data-ai-hint="handmade crafts tools thread beads yarn" // Updated hint
+                                data-ai-hint="contact desk mail craft paper" // Updated hint
                             />
                            {/* Removed overlay text */}
                        </div>
