@@ -23,12 +23,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning={true}> {/* Added suppressHydrationWarning */}
+    <html lang="en" suppressHydrationWarning={true}>
       <body className={`${poppins.className} antialiased flex flex-col min-h-screen bg-background text-foreground`}>
-        {/* Header is now a Client Component, no Suspense needed here unless a parent Server Component passes searchParams */}
         <Header />
-        {/* Adjusted main padding to match ShionHouse style - Removed container/max-width here, applied in pages/components */}
-        <main className="flex-grow py-8 md:py-12">
+        {/* Add padding top to account for fixed/sticky header AND sticky category tabs */}
+        {/* Approx height of header (h-16 = 4rem) + height of tabs (py-3 + button height ~ 3rem) + some buffer */}
+        <main className="flex-grow pt-[8rem] md:pt-[7.5rem] py-8 md:py-12"> {/* Adjusted padding-top */}
           {children}
         </main>
         <Toaster />

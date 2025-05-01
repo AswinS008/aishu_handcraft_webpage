@@ -7,12 +7,13 @@ import type { Product } from '@/lib/types';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react'; // Import Suspense
 import Banner from '@/components/banner'; // Import Banner
-import CategoryGrid from '@/components/category-grid'; // Import CategoryGrid
+import CategoryTabs from '@/components/category-tabs'; // Import CategoryTabs
 
 // Get unique categories from products
 const getCategories = (products: Product[]): string[] => {
   const categories = new Set(products.map(p => p.category));
-  return Array.from(categories);
+  // Ensure 'All' is always the first category
+  return ['All', ...Array.from(categories)];
 };
 
 // Component that uses the hooks
@@ -20,7 +21,7 @@ function HomePageContent() {
   // Hooks can only be called inside Client Components
   const searchParams = useSearchParams();
   const category = searchParams.get('category') || 'All'; // Get category from URL
-  const searchTerm = searchParams.get('search') || ''; // Get search term from URL
+  const searchTerm = searchParams.get('search') || ''; // Get search term from URL (keep for future)
 
   // Type assertion for the imported JSON data
   const products = productsData as Product[];
@@ -31,22 +32,26 @@ function HomePageContent() {
 
   return (
     <>
-      {/* Only show Banner and Category Grid if no specific category/search is active */}
-      {!showProductGrid && (
-        <>
-          <Banner />
-          <CategoryGrid categories={categories} products={products} />
-        </>
-      )}
+       {/* Banner is always shown */}
+       <Banner />
 
-      {/* Always show the ProductGrid section container, title updates based on filter */}
+       {/* Category Tabs placed below banner */}
+       <CategoryTabs categories={categories} />
+
+       {/* Product Grid Section */}
       <section className="container mx-auto px-4 py-8 md:py-12">
-        {/* Optional: Title for the products section */}
-         <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center text-primary animate-in fade-in duration-500">
-           {category === 'All' && !searchTerm && 'Featured Products'}
-           {category !== 'All' && `Category: ${category}`}
-           {searchTerm && `Search Results for: "${searchTerm}"`}
-         </h2>
+        {/* Optional: Title for the products section - Hide when 'All' is selected */}
+         {category !== 'All' && (
+           <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center text-primary animate-in fade-in duration-500">
+              {`Category: ${category}`}
+           </h2>
+          )}
+         {searchTerm && ( // Keep search title logic if search is added later
+           <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center text-primary animate-in fade-in duration-500">
+             {`Search Results for: "${searchTerm}"`}
+           </h2>
+         )}
+
         {/* ProductGrid now handles filtering based on props */}
         <ProductGrid products={products} />
       </section>

@@ -3,11 +3,12 @@ export interface Product {
   id: string;
   title: string;
   description: string;
-  price: number;
+  price: number; // Keep price as number, formatting handled in component
   imageUrl: string;
-  category: string; // Added category field
+  category: string;
   soldOut?: boolean;
   discount?: number; // Percentage discount, e.g., 10 for 10%
   popularity?: number; // Optional field for sorting by popularity (e.g., sales count, views)
+  // Consider adding currency field if supporting multiple currencies later:
+  // currency?: 'INR' | 'USD';
 }
-```

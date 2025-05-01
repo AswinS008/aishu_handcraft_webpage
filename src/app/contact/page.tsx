@@ -1,13 +1,33 @@
 
 import ContactForm from '@/components/contact-form';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { MapPin, Phone, Mail, Clock } from 'lucide-react'; // Added Clock icon
+import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 
 export default function ContactPage() {
   return (
     <>
-      {/* Optional: Breadcrumb or Hero Section like ShionHouse */}
-      <section className="bg-secondary py-12 mb-12 border-b border-border">
+      {/* Top Info Bar */}
+      <section className="bg-secondary py-4 border-b border-border mb-12 shadow-sm">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-8 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-accent flex-shrink-0" />
+              <span>123 Crafty Lane, Handmade City, HC 45678</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4 text-accent flex-shrink-0" />
+              <span>Mon - Fri: 9am - 5pm | Sat: 10am - 2pm</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Phone className="h-4 w-4 text-accent flex-shrink-0" />
+              <a href="tel:+1234567890" className="hover:text-primary transition-colors">+1 (234) 567-890</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Hero Section */}
+      <section className="bg-gradient-to-b from-background to-secondary/30 py-12 mb-12 border-b border-border">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl font-bold text-primary mb-2 animate-in fade-in slide-in-from-top duration-500">Contact Us</h1>
           <p className="text-muted-foreground animate-in fade-in slide-in-from-top duration-500 delay-100">Get in touch, we'd love to hear from you!</p>
@@ -19,7 +39,7 @@ export default function ContactPage() {
 
            {/* Contact Information Column */}
            <div className="lg:col-span-1 space-y-6 animate-in fade-in slide-in-from-left duration-500">
-             <h2 className="text-2xl font-semibold text-foreground border-b pb-2 mb-4">Contact Information</h2>
+             <h2 className="text-2xl font-semibold text-foreground border-b pb-2 mb-4">Get In Touch</h2>
              <div className="space-y-5 text-sm">
                <div className="flex items-start gap-3">
                  <MapPin className="h-5 w-5 mt-0.5 text-accent flex-shrink-0" />
@@ -46,9 +66,9 @@ export default function ContactPage() {
                  <Clock className="h-5 w-5 mt-0.5 text-accent flex-shrink-0" />
                  <div>
                    <p className="font-medium text-foreground">Business Hours:</p>
-                   <p className="text-muted-foreground">Mon - Fri: 9:00 AM - 5:00 PM</p>
-                   <p className="text-muted-foreground">Sat: 10:00 AM - 2:00 PM</p>
-                   <p className="text-muted-foreground">Sun: Closed</p>
+                   <p className="text-muted-foreground">Monday - Friday: 9:00 AM - 5:00 PM</p>
+                   <p className="text-muted-foreground">Saturday: 10:00 AM - 2:00 PM</p>
+                   <p className="text-muted-foreground">Sunday: Closed</p>
                  </div>
                </div>
              </div>
