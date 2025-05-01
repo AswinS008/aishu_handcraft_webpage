@@ -47,9 +47,8 @@ export default function RootLayout({
        {/* Combine font variables */}
        <body className={`${poppins.variable} ${montserrat.variable} ${caveat.variable} font-sans antialiased flex flex-col min-h-screen bg-background text-foreground`}>
         <Header />
-        {/* Re-evaluate padding: Header (h-16 = 4rem) + Tabs (~3rem) + buffer */}
-        {/* Keeping it simple for now, adjust if overlap occurs */}
-        <main className="flex-grow pt-[7rem] md:pt-[7rem] py-8 md:py-12"> {/* Simplified padding */}
+        {/* Adjusted top padding for dynamic header: h-16 (4rem) + potential top-2 = 4.5rem + buffer */}
+        <main className="flex-grow pt-[5rem] md:pt-[5.5rem] py-8 md:py-12"> {/* Adjusted padding-top */}
            {/* Wrap children with LoadingManager to show loading screen on route changes */}
            <LoadingManager>
              {children}

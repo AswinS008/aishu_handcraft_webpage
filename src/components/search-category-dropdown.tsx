@@ -71,18 +71,20 @@ export default function SearchCategoryDropdown({ categories }: SearchCategoryDro
   };
 
   return (
+    // Adjusted for mobile: reduced horizontal padding, ensure button fits
     <form onSubmit={handleSearchSubmit} className="flex w-full items-center space-x-1 md:space-x-2 bg-secondary/50 border border-border/50 rounded-full px-1 py-1 h-10 focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1 focus-within:border-primary transition-all">
         {/* Category Select */}
         <Select value={selectedCategory} onValueChange={handleCategoryChange}>
           <SelectTrigger
             className={cn(
-                "h-full w-auto min-w-[80px] md:min-w-[120px] rounded-l-full border-0 bg-transparent pl-3 pr-2 text-xs md:text-sm text-muted-foreground focus:ring-0 focus:ring-offset-0 focus:outline-none shadow-none",
+                "h-full w-auto min-w-[60px] sm:min-w-[80px] md:min-w-[120px] rounded-l-full border-0 bg-transparent pl-2 sm:pl-3 pr-1 sm:pr-2 text-xs md:text-sm text-muted-foreground focus:ring-0 focus:ring-offset-0 focus:outline-none shadow-none", // Adjusted padding and min-width
                 selectedCategory !== 'All' && "text-foreground font-medium" // Highlight if not 'All'
             )}
             aria-label="Select Category"
           >
              <ListFilter className="h-3.5 w-3.5 mr-1 hidden sm:inline-block"/>
-             <SelectValue placeholder="All Categories"/>
+             {/* Show 'All' text on smaller screens if SelectValue is empty */}
+             <SelectValue placeholder="All" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="All">All Categories</SelectItem>
@@ -100,7 +102,7 @@ export default function SearchCategoryDropdown({ categories }: SearchCategoryDro
         {/* Search Input */}
         <Input
             type="search"
-            placeholder="Search products..."
+            placeholder="Search..." // Shortened placeholder
             value={searchTerm}
             onChange={handleSearchChange}
             className="h-full flex-grow bg-transparent border-0 rounded-none px-2 py-1 text-sm focus:ring-0 focus:ring-offset-0 focus:outline-none shadow-none placeholder:text-muted-foreground"
@@ -112,7 +114,7 @@ export default function SearchCategoryDropdown({ categories }: SearchCategoryDro
             type="submit"
             size="icon"
             variant="ghost"
-            className="h-8 w-8 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary flex-shrink-0"
+            className="h-8 w-8 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary flex-shrink-0 mr-1" // Added margin-right
             aria-label="Submit search"
         >
             <Search className="h-4 w-4" />

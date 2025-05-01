@@ -151,4 +151,12 @@
        @apply group-hover:scale-110 transition-transform duration-300;
    }
 
+    /* Utility to hide scrollbars */
+    .scrollbar-hide {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none; /* Chrome, Safari and Opera */
+    }
 }

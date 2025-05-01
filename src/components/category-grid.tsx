@@ -36,7 +36,8 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
 
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
+    // Responsive grid columns
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
       {categories.map((category, index) => (
         <motion.div
           key={category}
@@ -58,7 +59,7 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
                    src={getCategoryImage(category)}
                    alt={`Image for category: ${category}`}
                    fill
-                   sizes="(max-width: 640px) 45vw, (max-width: 768px) 30vw, (max-width: 1024px) 22vw, 15vw"
+                   sizes="(max-width: 640px) 45vw, (max-width: 768px) 30vw, (max-width: 1024px) 22vw, (max-width: 1280px) 18vw, 15vw" // Adjusted sizes
                    className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
                    data-ai-hint={category.toLowerCase().split(' ')[0]} // AI hint for image generation
                  />

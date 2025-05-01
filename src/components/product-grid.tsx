@@ -100,10 +100,10 @@ export default function ProductGrid({ products }: ProductGridProps) {
          </div>
        </div>
 
-      {/* Product Grid - Added motion.div wrapper for AnimatePresence */}
+      {/* Product Grid - Added responsive grid columns */}
        <motion.div
          layout // Animate layout changes when the grid itself changes (e.g., filters applied)
-         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10"
+         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10" // Responsive columns
         >
          <AnimatePresence mode="popLayout"> {/* Use AnimatePresence for item animations */}
            {filteredAndSortedProducts.length > 0 ? (

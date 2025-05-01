@@ -6,9 +6,10 @@ import { Input } from '@/components/ui/input';
 
 export default function Footer() {
   return (
-    <footer className="bg-secondary text-secondary-foreground border-t border-border/40 pt-16 pb-8">
+    <footer className="bg-secondary text-secondary-foreground border-t border-border/40 pt-12 md:pt-16 pb-8"> {/* Increased top padding */}
       <div className="container max-w-screen-2xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        {/* Adjusted grid columns for better mobile layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12">
 
           {/* About Section */}
           <div className="space-y-4">
@@ -76,7 +77,8 @@ export default function Footer() {
                       </a>
                  </Button>
              </div>
-             <div className="flex gap-4 pt-4 justify-center md:justify-start">
+             {/* Adjusted social links alignment */}
+             <div className="flex gap-4 pt-4 justify-start">
                 <span className="text-sm text-muted-foreground">Follow us:</span>
                <a href="https://www.instagram.com/house_of_aishu?igsh=MWQ4eW53NnNuaTFnYQ%3D%3D" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-muted-foreground hover:text-primary transition-colors">
                  <Instagram className="h-5 w-5" />
