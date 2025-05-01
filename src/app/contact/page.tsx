@@ -1,10 +1,25 @@
+'use client'; // Ensure this page runs on the client, preventing potential prerender issues
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MapPin, Phone, Mail, Clock, Instagram, MessageSquare } from 'lucide-react'; // Added Instagram, MessageSquare
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"; // Import Accordion
 import Image from 'next/image'; // Import Image
+import { motion } from 'framer-motion'; // Import motion
 
 export default function ContactPage() {
+  const contactInfoVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.15, // Stagger animation
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    })
+  };
+
   return (
     <>
       {/* Top Info Bar - Simplified */}
@@ -30,21 +45,50 @@ export default function ContactPage() {
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-background to-secondary/30 py-12 mb-12 border-b border-border">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl font-bold text-primary mb-2 animate-in fade-in slide-in-from-top duration-500">Contact Us</h1>
-          <p className="text-muted-foreground animate-in fade-in slide-in-from-top duration-500 delay-100">📱 DM for enquiries and orders..!!! We'd love to hear from you!</p>
+          <motion.h1
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-4xl font-bold text-primary mb-2"
+          >
+            Contact Us
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-muted-foreground"
+          >
+            📱 DM for enquiries and orders..!!! We'd love to hear from you!
+          </motion.p>
         </div>
       </section>
 
       {/* Main Content Section */}
-      <section className="relative container mx-auto px-4 py-8 flex flex-col items-center">
+      <section className="relative container mx-auto px-4 py-8 flex flex-col items-center overflow-hidden"> {/* Added overflow-hidden */}
 
           {/* Subtle Background Decor Elements */}
-          <div className="absolute top-20 -left-10 w-40 h-40 bg-pink-100/30 rounded-full blur-3xl opacity-50 -z-10 animate-pulse delay-100"></div>
-          <div className="absolute bottom-40 -right-10 w-32 h-32 bg-blue-100/30 rounded-full blur-3xl opacity-50 -z-10 animate-pulse delay-300"></div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.5, type: 'spring', stiffness: 50 }}
+            className="absolute top-20 -left-20 w-40 h-40 bg-pink-100/30 rounded-full blur-3xl opacity-50 -z-10 animate-pulse delay-100"
+          ></motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.7, type: 'spring', stiffness: 50 }}
+            className="absolute bottom-40 -right-20 w-32 h-32 bg-blue-100/30 rounded-full blur-3xl opacity-50 -z-10 animate-pulse delay-300"
+          ></motion.div>
 
 
          {/* Contact Information Card - Centered */}
-          <div className="w-full max-w-3xl mb-16 animate-in fade-in slide-in-from-bottom duration-500 delay-200"> {/* Increased max-width */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="w-full max-w-3xl mb-16"
+          >
               <Card className="w-full shadow-lg border-border/50">
                   <CardHeader className="pb-4"> {/* Reduced padding */}
                       <CardTitle className="text-2xl font-semibold text-foreground text-center">Get In Touch</CardTitle>
@@ -52,59 +96,93 @@ export default function ContactPage() {
                   <CardContent className="space-y-0 text-sm pt-0"> {/* Removed space-y, Added pt-0 */}
 
                       {/* Decorative Image Placeholder (Craft Theme) */}
-                       <div className="relative h-48 w-full rounded-t-md overflow-hidden bg-gradient-to-r from-pink-100 to-blue-100 mb-8"> {/* Increased height and margin */}
+                       <div className="relative h-48 w-full rounded-t-md overflow-hidden bg-gradient-to-r from-teal-100 to-blue-100 mb-8"> {/* Adjusted height and margin */}
                            <Image
-                                src="https://picsum.photos/seed/contactcraftmail/600/250" // New seed for relevant image (e.g., mail, desk)
+                                src="/images/contact-banner-craft.jpg" // Changed to a local image path
                                 alt="Contact background with craft elements"
                                 fill
                                 className="object-cover opacity-70" // Slightly less opacity
-                                data-ai-hint="contact desk mail craft paper" // Updated hint
+                                data-ai-hint="contact desk mail craft paper yarn" // Updated hint
+                                quality={80} // Adjust quality if needed
                             />
                            {/* Removed overlay text */}
                        </div>
 
                       {/* Contact Details Grid */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8 px-4 sm:px-8 pb-8"> {/* Increased gap and padding */}
-                          <div className="flex items-start gap-3 animate-in fade-in slide-in-from-left duration-500 delay-300">
-                            <MapPin className="h-6 w-6 mt-0.5 text-accent flex-shrink-0" />
-                            <div>
-                              <p className="font-semibold text-foreground mb-1">Address:</p>
-                              <p className="text-muted-foreground">359/4 D.D.Road,</p>
-                              <p className="text-muted-foreground">Arappalayam,</p>
-                              <p className="text-muted-foreground">Madurai - 625016</p>
-                            </div>
-                          </div>
-                          <div className="flex items-start gap-3 animate-in fade-in slide-in-from-right duration-500 delay-400">
-                            <Phone className="h-6 w-6 mt-0.5 text-accent flex-shrink-0" />
-                            <div>
-                              <p className="font-semibold text-foreground mb-1">Phone / WhatsApp:</p>
-                              <a href="tel:+919034587332" className="text-muted-foreground hover:text-primary transition-colors block">9034587332</a>
-                               <p className="text-xs text-muted-foreground mt-1">(Click to call or message)</p>
-                            </div>
-                          </div>
-                          <div className="flex items-start gap-3 animate-in fade-in slide-in-from-left duration-500 delay-500">
-                            <Mail className="h-6 w-6 mt-0.5 text-accent flex-shrink-0" />
-                            <div>
-                              <p className="font-semibold text-foreground mb-1">Email:</p>
-                              <a href="mailto:aishu_handcraft@gmail.com" className="text-muted-foreground hover:text-primary transition-colors break-all">aishu_handcraft@gmail.com</a>
-                            </div>
-                          </div>
-                          <div className="flex items-start gap-3 animate-in fade-in slide-in-from-right duration-500 delay-600">
-                            <Instagram className="h-6 w-6 mt-0.5 text-accent flex-shrink-0" />
-                            <div>
-                              <p className="font-semibold text-foreground mb-1">Instagram:</p>
-                              <a href="https://www.instagram.com/house_of_aishu?igsh=MWQ4eW53NnNuaTFnYQ%3D%3D" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">@house_of_aishu</a>
-                               <p className="text-xs text-muted-foreground mt-1">(DM for orders & enquiries)</p>
-                            </div>
-                          </div>
-                      </div>
+                           {/* Address */}
+                           <motion.div
+                               className="flex items-start gap-3"
+                               custom={0}
+                               initial="hidden"
+                               animate="visible"
+                               variants={contactInfoVariants}
+                           >
+                               <MapPin className="h-6 w-6 mt-0.5 text-accent flex-shrink-0" />
+                               <div>
+                                   <p className="font-semibold text-foreground mb-1">Address:</p>
+                                   <p className="text-muted-foreground">359/4 D.D.Road,</p>
+                                   <p className="text-muted-foreground">Arappalayam,</p>
+                                   <p className="text-muted-foreground">Madurai - 625016</p>
+                               </div>
+                           </motion.div>
+                            {/* Phone */}
+                           <motion.div
+                               className="flex items-start gap-3"
+                               custom={1}
+                               initial="hidden"
+                               animate="visible"
+                               variants={contactInfoVariants}
+                           >
+                               <Phone className="h-6 w-6 mt-0.5 text-accent flex-shrink-0" />
+                               <div>
+                                   <p className="font-semibold text-foreground mb-1">Phone / WhatsApp:</p>
+                                   <a href="tel:+919034587332" className="text-muted-foreground hover:text-primary transition-colors block">9034587332</a>
+                                   <p className="text-xs text-muted-foreground mt-1">(Click to call or message)</p>
+                               </div>
+                           </motion.div>
+                           {/* Email */}
+                           <motion.div
+                               className="flex items-start gap-3"
+                               custom={2}
+                               initial="hidden"
+                               animate="visible"
+                               variants={contactInfoVariants}
+                           >
+                               <Mail className="h-6 w-6 mt-0.5 text-accent flex-shrink-0" />
+                               <div>
+                                   <p className="font-semibold text-foreground mb-1">Email:</p>
+                                   <a href="mailto:aishu_handcraft@gmail.com" className="text-muted-foreground hover:text-primary transition-colors break-all">aishu_handcraft@gmail.com</a>
+                               </div>
+                           </motion.div>
+                            {/* Instagram */}
+                           <motion.div
+                               className="flex items-start gap-3"
+                               custom={3}
+                               initial="hidden"
+                               animate="visible"
+                               variants={contactInfoVariants}
+                            >
+                               <Instagram className="h-6 w-6 mt-0.5 text-accent flex-shrink-0" />
+                               <div>
+                                   <p className="font-semibold text-foreground mb-1">Instagram:</p>
+                                   <a href="https://www.instagram.com/house_of_aishu?igsh=MWQ4eW53NnNuaTFnYQ%3D%3D" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">@house_of_aishu</a>
+                                   <p className="text-xs text-muted-foreground mt-1">(DM for orders & enquiries)</p>
+                               </div>
+                           </motion.div>
+                       </div>
                       {/* Removed Business Hours */}
                   </CardContent>
               </Card>
-          </div>
+          </motion.div>
 
           {/* FAQ Section */}
-           <div id="faq-placeholder" className="w-full max-w-3xl mb-16 animate-in fade-in slide-in-from-bottom duration-500 delay-400"> {/* Increased max-width */}
+           <motion.div
+             initial={{ opacity: 0, y: 50 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ duration: 0.6, delay: 0.4 }}
+             id="faq-placeholder" className="w-full max-w-3xl mb-16"
+            >
               <h2 className="text-2xl font-semibold text-foreground text-center mb-6">Frequently Asked Questions</h2>
                <Accordion type="single" collapsible className="w-full bg-card p-4 sm:p-6 rounded-lg shadow-sm border border-border/50">
                  <AccordionItem value="item-1">
@@ -132,10 +210,15 @@ export default function ContactPage() {
                    </AccordionContent>
                  </AccordionItem>
                </Accordion>
-           </div>
+           </motion.div>
 
            {/* Map Section - Full Width Below */}
-           <div className="w-full max-w-4xl animate-in fade-in slide-in-from-bottom duration-500 delay-600"> {/* Adjusted delay and width */}
+           <motion.div
+             initial={{ opacity: 0, y: 50 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ duration: 0.6, delay: 0.6 }}
+             className="w-full max-w-4xl"
+            >
                 <h2 className="text-2xl font-semibold text-foreground text-center mb-6">Our Location (Madurai)</h2>
                  {/* Updated Google Maps iframe */}
                  <div className="bg-secondary rounded-lg h-80 md:h-96 w-full flex items-center justify-center text-muted-foreground border border-border/50 shadow-lg overflow-hidden"> {/* Increased height, Added shadow-lg */}
@@ -150,7 +233,7 @@ export default function ContactPage() {
                         title="Aishu's Handcraft Location">
                      </iframe>
                  </div>
-           </div>
+           </motion.div>
 
       </section>
     </>
