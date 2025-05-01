@@ -10,26 +10,26 @@
 /* Apply base styles */
 @layer base {
   :root {
-    /* Option 1: Festive & Traditional (Warm & Luxurious) */
-    --background: 60 56% 91%;        /* Cream/Off-White */
-    --foreground: 60 10% 15%;        /* Dark contrast */
-    --card: 60 56% 93%;              /* Slightly lighter Cream/Off-White */
-    --card-foreground: 60 10% 15%;   /* Dark contrast */
-    --popover: 60 56% 93%;
-    --popover-foreground: 60 10% 15%;
-    --primary: 330 100% 71%;         /* Rani Pink */
-    --primary-foreground: 330 50% 15%; /* Dark contrast for Pink */
-    --secondary: 36 100% 60%;         /* Saffron */
-    --secondary-foreground: 36 60% 20%; /* Dark contrast for Saffron */
-    --muted: 60 40% 94%;              /* Lighter neutral */
-    --muted-foreground: 60 10% 45%;   /* Grayer neutral */
-    --accent: 51 100% 50%;            /* Gold */
-    --accent-foreground: 51 100% 15%;   /* Dark contrast for Gold */
+    /* Option 3: Vibrant & Modern (Playful & Energetic) */
+    --background: 0 0% 95%;           /* Light Gray (adjusted lightness slightly) */
+    --foreground: 0 0% 10%;           /* Dark contrast */
+    --card: 0 0% 98%;                 /* Lighter Gray */
+    --card-foreground: 0 0% 10%;      /* Dark contrast */
+    --popover: 0 0% 98%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 180 100% 25%;          /* Teal */
+    --primary-foreground: 180 100% 95%; /* Light contrast for Teal */
+    --secondary: 47 100% 67%;         /* Mustard */
+    --secondary-foreground: 47 100% 15%; /* Dark contrast for Mustard */
+    --muted: 0 0% 90%;                /* Lighter neutral gray */
+    --muted-foreground: 0 0% 40%;     /* Darker neutral gray */
+    --accent: 16 100% 66%;            /* Coral */
+    --accent-foreground: 16 100% 10%;   /* Dark contrast for Coral */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 60 30% 88%;             /* Slightly darker Cream/Off-White */
-    --input: 60 30% 88%;
-    --ring: 330 100% 71%;            /* Primary color (Rani Pink) focus ring */
+    --border: 0 0% 88%;               /* Slightly darker Gray */
+    --input: 0 0% 88%;
+    --ring: 180 100% 25%;            /* Primary color (Teal) focus ring */
     --chart-1: 12 76% 61%;           /* Keep existing chart colors or adjust */
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -37,8 +37,8 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;                 /* Adjust border radius if needed */
 
-     /* Dark Theme (Optional - adjust if needed, keeping existing for now) */
-     --sidebar-background: 0 0% 98%;
+     /* Dark Theme (Adjusted for Option 3) */
+     --sidebar-background: 0 0% 98%; /* Keep existing sidebar for now, or adjust */
      --sidebar-foreground: 240 5.3% 26.1%;
      --sidebar-primary: 240 5.9% 10%;
      --sidebar-primary-foreground: 0 0% 98%;
@@ -49,32 +49,32 @@
   }
 
   .dark {
-    /* Define dark mode variables if you intend to use it - Keep existing for now */
-    --background: 30 10% 15%; /* Dark Gray/Brown */
-    --foreground: 60 56% 91%; /* Light Beige */
-    --card: 30 10% 18%;
-    --card-foreground: 60 56% 91%;
-    --popover: 30 10% 18%;
-    --popover-foreground: 60 56% 91%;
-    --primary: 330 80% 75%; /* Lighter Rani Pink for dark */
-    --primary-foreground: 330 20% 10%; /* Dark contrast */
-    --secondary: 36 80% 65%; /* Lighter Saffron for dark */
-    --secondary-foreground: 36 30% 15%; /* Dark contrast */
-    --muted: 30 10% 22%;
-    --muted-foreground: 60 10% 65%;
-    --accent: 51 80% 60%; /* Lighter Gold for dark */
-    --accent-foreground: 51 30% 10%; /* Dark contrast */
+    /* Dark mode variables adjusted for Option 3 */
+    --background: 0 0% 10%;           /* Dark Gray */
+    --foreground: 0 0% 83%;           /* Light Gray */
+    --card: 0 0% 13%;                 /* Slightly lighter dark gray */
+    --card-foreground: 0 0% 83%;
+    --popover: 0 0% 13%;
+    --popover-foreground: 0 0% 83%;
+    --primary: 180 80% 45%;           /* Lighter Teal for dark */
+    --primary-foreground: 180 100% 5%;  /* Dark contrast for Teal */
+    --secondary: 47 80% 75%;          /* Lighter Mustard for dark */
+    --secondary-foreground: 47 100% 10%; /* Dark contrast for Mustard */
+    --muted: 0 0% 20%;                /* Darker Gray */
+    --muted-foreground: 0 0% 60%;     /* Lighter Gray */
+    --accent: 16 100% 75%;            /* Lighter Coral for dark */
+    --accent-foreground: 16 100% 5%;    /* Dark contrast for Coral */
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 30 10% 28%;
-    --input: 30 10% 28%;
-    --ring: 330 90% 65%; /* Rani Pink focus ring */
+    --border: 0 0% 25%;               /* Darker Gray */
+    --input: 0 0% 25%;
+    --ring: 180 80% 45%;             /* Teal focus ring */
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
+    --sidebar-background: 240 5.9% 10%; /* Keep existing sidebar for now, or adjust */
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
@@ -111,6 +111,15 @@
      0%, 100% { opacity: 1; }
      50% { opacity: .6; }
    }
+    /* Art-related loading animation */
+   @keyframes brushStroke {
+     0% { transform: rotate(-15deg) scaleX(0); opacity: 0; transform-origin: left center; }
+     25% { transform: rotate(-15deg) scaleX(1); opacity: 1; }
+     50% { transform: rotate(10deg) translateX(5px); opacity: 1; }
+     75% { transform: rotate(10deg) scaleX(0); opacity: 0; transform-origin: right center; }
+     100% { transform: rotate(10deg) scaleX(0); opacity: 0; }
+   }
+
 
    /* Animation Classes */
    .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
@@ -120,6 +129,7 @@
    .animate-slide-in-bottom { animation: slideInFromBottom 0.5s ease-out forwards; } /* Added */
    .animate-zoom-in { animation: zoomIn 0.3s ease-out forwards; }
    .animate-pulse { animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+   .animate-brush-stroke { animation: brushStroke 1.8s ease-in-out infinite; } /* Class for loading animation */
 
 
    /* Combine animations with tailwind animate-in */
