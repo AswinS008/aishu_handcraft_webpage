@@ -1,5 +1,4 @@
 
-import ContactForm from '@/components/contact-form';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MapPin, Phone, Mail, Clock, Instagram, MessageSquare } from 'lucide-react'; // Added Instagram, MessageSquare
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"; // Import Accordion
@@ -36,11 +35,12 @@ export default function ContactPage() {
       </section>
 
       <section className="container mx-auto px-4 py-8">
+         {/* Centered Contact Info */}
          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
 
-           {/* Contact Information Column */}
-           <div className="lg:col-span-1 space-y-6 animate-in fade-in slide-in-from-left duration-500">
-             <h2 className="text-2xl font-semibold text-foreground border-b pb-2 mb-4">Get In Touch</h2>
+           {/* Contact Information Column - Centered on large screens */}
+           <div className="lg:col-span-2 lg:col-start-2 space-y-6 animate-in fade-in slide-in-from-left duration-500">
+             <h2 className="text-2xl font-semibold text-foreground border-b pb-2 mb-4 text-center lg:text-left">Get In Touch</h2>
              <div className="space-y-5 text-sm">
                <div className="flex items-start gap-3">
                  <MapPin className="h-5 w-5 mt-0.5 text-accent flex-shrink-0" />
@@ -78,14 +78,16 @@ export default function ContactPage() {
              </div>
            </div>
 
-           {/* Contact Form Column */}
+           {/* Removed Contact Form Column */}
+           {/*
            <div className="lg:col-span-2 space-y-6 animate-in fade-in duration-500 delay-200">
                 <h2 className="text-2xl font-semibold text-foreground border-b pb-2 mb-4">Send Us A Message (General Enquiries)</h2>
-                <ContactForm /> {/* Use the existing form component */}
+                <ContactForm />
            </div>
+           */}
          </div>
 
-          {/* FAQ Section - Added */}
+          {/* FAQ Section */}
            <div id="faq-placeholder" className="mt-16 animate-in fade-in slide-in-from-bottom duration-500 delay-400">
               <h2 className="text-2xl font-semibold text-foreground text-center mb-6">Frequently Asked Questions</h2>
                <Accordion type="single" collapsible className="w-full max-w-2xl mx-auto bg-card p-4 sm:p-6 rounded-lg shadow-sm border border-border">
