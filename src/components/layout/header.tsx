@@ -1,10 +1,10 @@
 
-'use client'; // Make header client-side for search state and routing
+'use client'; // Make header client-side for routing and mobile menu state
 
 import Link from 'next/link';
-import { Package2, Instagram, Facebook, Twitter, Search, ShoppingBag, Heart, User, Menu, X } from 'lucide-react'; // Added icons
+import { Package2, Instagram, Facebook, Twitter, Search, ShoppingBag, Heart, User, Menu, X } from 'lucide-react'; // Keep Search icon for potential future use or visual consistency
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+// import { Input } from '@/components/ui/input'; // Removed Input import
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'; // Use next/navigation hooks
 import { useState, useEffect } from 'react';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"; // For mobile menu
@@ -21,34 +21,39 @@ export default function Header() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const initialSearchTerm = searchParams.get('search') || '';
-  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+  // const initialSearchTerm = searchParams.get('search') || ''; // Removed search state
+  // const [searchTerm, setSearchTerm] = useState(initialSearchTerm); // Removed search state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const categories = getCategories(productsData as Product[]);
 
-  // Update search term state if URL changes
-  useEffect(() => {
-    setSearchTerm(initialSearchTerm);
-  }, [initialSearchTerm]);
+  // Update search term state if URL changes - Removed effect related to search term
+  // useEffect(() => {
+  //   setSearchTerm(initialSearchTerm);
+  // }, [initialSearchTerm]);
 
-  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const currentParams = new URLSearchParams(searchParams.toString());
-    if (searchTerm.trim()) {
-      currentParams.set('search', searchTerm.trim());
-    } else {
-      currentParams.delete('search');
-    }
-    // Navigate to home page with search query
-    router.push(`/?${currentParams.toString()}`);
-     if (isMobileMenuOpen) setIsMobileMenuOpen(false); // Close mobile menu on search
-  };
+  // Removed handleSearch function
+  // const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   const currentParams = new URLSearchParams(searchParams.toString());
+  //   if (searchTerm.trim()) {
+  //     currentParams.set('search', searchTerm.trim());
+  //   } else {
+  //     currentParams.delete('search');
+  //   }
+  //   // Navigate to home page with search query
+  //   router.push(`/?${currentParams.toString()}`);
+  //    if (isMobileMenuOpen) setIsMobileMenuOpen(false); // Close mobile menu on search
+  // };
 
   const handleCategoryClick = (category: string) => {
     const currentParams = new URLSearchParams(searchParams.toString());
-    currentParams.set('category', category);
-    currentParams.delete('search'); // Clear search when category changes
+    if (category === 'All') {
+      currentParams.delete('category');
+    } else {
+      currentParams.set('category', category);
+    }
+    currentParams.delete('search'); // Clear search when category changes (if search existed)
     router.push(`/?${currentParams.toString()}`);
     if (isMobileMenuOpen) setIsMobileMenuOpen(false); // Close mobile menu
   }
@@ -66,9 +71,13 @@ export default function Header() {
 
   const renderNavLinks = (isMobile = false) => (
     <>
-      <Button variant="link" className={`p-0 h-auto text-base ${isMobile ? 'w-full justify-start py-2' : ''} ${pathname === '/' && !searchParams.get('category') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`} onClick={handleLogoClick}>
-        Home
-      </Button>
+      <Button
+         variant="link"
+         className={`p-0 h-auto text-base ${isMobile ? 'w-full justify-start py-2' : ''} ${pathname === '/' && !searchParams.get('category') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`}
+         onClick={() => handleCategoryClick('All')} // Click Home/All resets to show all categories/featured
+       >
+         Home
+       </Button>
       {/* Category Links */}
       {categories.map(category => (
         <Button
@@ -105,10 +114,11 @@ export default function Header() {
             <SheetContent side="left" className="w-64 sm:w-72 bg-background p-4">
               <div className="flex flex-col h-full">
                  <div className="flex justify-between items-center mb-6">
-                    <Link href="/" className="flex items-center gap-2 font-semibold text-primary" onClick={() => setIsMobileMenuOpen(false)}>
-                         <Package2 className="h-6 w-6 text-accent" />
-                         <span>GirlyCrafts</span>
-                     </Link>
+                    {/* Logo inside mobile menu */}
+                    <div className="flex items-center gap-2 font-semibold text-primary cursor-pointer" onClick={handleLogoClick}>
+                      <Package2 className="h-6 w-6 text-accent" />
+                      <span>GirlyCrafts</span>
+                    </div>
                      <SheetClose asChild>
                          <Button variant="ghost" size="icon">
                              <X className="h-5 w-5" />
@@ -117,17 +127,8 @@ export default function Header() {
                      </SheetClose>
                  </div>
 
-                {/* Mobile Search */}
-                <form onSubmit={handleSearch} className="relative mb-4">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    type="search"
-                    placeholder="Search products..."
-                    className="w-full rounded-full pl-10 pr-4 py-2 h-10 bg-secondary focus:bg-background text-sm"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                 </form>
+                {/* Removed Mobile Search */}
+                {/* <form onSubmit={handleSearch} className="relative mb-4"> ... </form> */}
 
                 {/* Mobile Navigation */}
                 <nav className="flex flex-col gap-2 flex-grow overflow-y-auto">
@@ -174,41 +175,27 @@ export default function Header() {
          {renderNavLinks()}
         </nav>
 
-        {/* Desktop Icons & Search */}
+        {/* Desktop Icons */}
         <div className="hidden md:flex items-center gap-4">
-          {/* Desktop Search Form */}
-          <form onSubmit={handleSearch} className="relative">
-             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
-             <Input
-               type="search"
-               placeholder="Search..."
-               className="w-40 lg:w-56 rounded-full pl-9 pr-3 py-1.5 h-9 bg-secondary focus:bg-background text-sm"
-               value={searchTerm}
-               onChange={(e) => setSearchTerm(e.target.value)}
-             />
-          </form>
+          {/* Removed Desktop Search Form */}
+          {/* <form onSubmit={handleSearch} className="relative"> ... </form> */}
+
            {/* Placeholder Icons */}
           <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
             <Heart className="h-5 w-5" />
+             <span className="sr-only">Wishlist</span>
           </Button>
           <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary relative">
             <ShoppingBag className="h-5 w-5" />
+             <span className="sr-only">Shopping Bag</span>
             {/* Optional: Add item count badge
             <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span>
              */}
            </Button>
            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
              <User className="h-5 w-5" />
+              <span className="sr-only">Account</span>
            </Button>
-
-            {/* Social Links (Optional in Header for Desktop) */}
-             {/*
-            <Button variant="ghost" size="icon" className="transition-transform hover:scale-110" asChild>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <Instagram className="h-5 w-5 text-muted-foreground hover:text-primary" />
-              </a>
-            </Button>
-            */}
 
         </div>
       </div>

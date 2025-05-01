@@ -5,45 +5,46 @@ import type { Product } from '@/lib/types';
 import ProductCard from './product-card';
 import { useState, useMemo, useEffect } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Button } from "@/components/ui/button"; // Import Button
+// import { Button } from "@/components/ui/button"; // Removed Button import (category buttons removed)
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
 
 interface ProductGridProps {
   products: Product[];
+  // Removed selectedCategory prop as it's now handled by searchParams
 }
 
 type SortOption = 'default' | 'price-asc' | 'price-desc' | 'popularity';
 
-// Get unique categories from products, including 'All'
-const getCategories = (products: Product[]): string[] => {
-  const categories = new Set(products.map(p => p.category));
-  return ['All', ...Array.from(categories)];
-};
+// // Get unique categories from products, including 'All' - No longer needed here
+// const getCategories = (products: Product[]): string[] => {
+//   const categories = new Set(products.map(p => p.category));
+//   return ['All', ...Array.from(categories)];
+// };
 
 export default function ProductGrid({ products }: ProductGridProps) {
   const searchParams = useSearchParams();
-  const initialCategory = searchParams.get('category') || 'All';
-  const searchTerm = searchParams.get('search') || '';
+  const selectedCategory = searchParams.get('category') || 'All'; // Get category from URL params
+  const searchTerm = searchParams.get('search') || ''; // Get search term from URL
 
   const [sortOption, setSortOption] = useState<SortOption>('default');
-  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
+  // const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory); // State removed, using searchParams directly
 
-  // Update selected category if URL param changes
-  useEffect(() => {
-    setSelectedCategory(initialCategory);
-  }, [initialCategory]);
+  // // Update selected category if URL param changes - No longer needed as we read directly
+  // useEffect(() => {
+  //   setSelectedCategory(initialCategory);
+  // }, [initialCategory]);
 
-  const categories = useMemo(() => getCategories(products), [products]);
+  // const categories = useMemo(() => getCategories(products), [products]); // No longer needed here
 
   const filteredAndSortedProducts = useMemo(() => {
-    // 1. Filter by category
+    // 1. Filter by category from URL
     let filtered = products;
     if (selectedCategory !== 'All') {
       filtered = products.filter(product => product.category === selectedCategory);
     }
 
-    // 2. Filter based on search term (case-insensitive)
+    // 2. Filter based on search term (case-insensitive) - Keep search functionality
     if (searchTerm) {
       filtered = filtered.filter(product =>
         product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -67,55 +68,41 @@ export default function ProductGrid({ products }: ProductGridProps) {
         break;
       case 'default':
       default:
-        // Optionally implement a default sort (e.g., by ID or title)
+        // Default sort: by ID
         sorted.sort((a, b) => a.id.localeCompare(b.id));
         break;
     }
     return sorted;
   }, [products, sortOption, selectedCategory, searchTerm]);
 
-  const handleCategoryChange = (category: string) => {
-      setSelectedCategory(category);
-      // Update URL without full page reload - Optional, but good UX
-      const currentParams = new URLSearchParams(window.location.search);
-      if (category === 'All') {
-          currentParams.delete('category');
-      } else {
-          currentParams.set('category', category);
-      }
-      window.history.pushState({}, '', `${window.location.pathname}?${currentParams.toString()}`);
-  };
+  // Removed handleCategoryChange function as category selection is done via Header links now
+  // const handleCategoryChange = (category: string) => { ... };
+
+
+  // Determine the total count based on whether filtering is active
+   const totalProductsToCount = selectedCategory === 'All' && !searchTerm ? products.length : filteredAndSortedProducts.length;
+   const showingCount = filteredAndSortedProducts.length;
 
 
   return (
-    <div className="container mx-auto px-4 py-8">
-       {/* Filters and Sorting Section - Styled like ShionHouse */}
-       <div className="mb-12">
-         <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-6">
-           {categories.map((category) => (
-             <Button
-               key={category}
-               variant={selectedCategory === category ? "default" : "outline"}
-               onClick={() => handleCategoryChange(category)}
-               className={`px-4 py-2 rounded-full text-sm transition-colors duration-200 ${
-                 selectedCategory === category
-                   ? 'bg-primary text-primary-foreground'
-                   : 'bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground'
-               }`}
-             >
-               {category}
-             </Button>
-           ))}
-         </div>
+    // Removed the outer container/padding, now handled by the page component
+    <>
+       {/* Filters and Sorting Section - Adjusted styling and removed category buttons */}
+       <div className="mb-8 md:mb-12"> {/* Reduced bottom margin */}
+         {/* Removed Category Buttons Section */}
+         {/* <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-6"> ... </div> */}
 
-         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 px-4 py-2 bg-card rounded-lg shadow-sm border border-border">
+         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 px-4 py-3 bg-card rounded-lg shadow-sm border border-border">
            <div className="text-sm text-muted-foreground w-full sm:w-auto text-center sm:text-left">
-             Showing {filteredAndSortedProducts.length} of {products.length} products
-             {searchTerm && (
-                <span> for "<span className="font-semibold text-primary">{searchTerm}</span>"</span>
-             )}
-              {selectedCategory !== 'All' && (
-                 <span> in <span className="font-semibold text-primary">{selectedCategory}</span></span>
+              {/* Updated showing count logic */}
+              Showing {showingCount} product{showingCount !== 1 ? 's' : ''}
+              {/* Conditionally show 'of X' only when filtering */}
+              {(selectedCategory !== 'All' || searchTerm) && ` of ${totalProductsToCount}`}
+              {searchTerm && (
+                  <span> for "<span className="font-semibold text-primary">{searchTerm}</span>"</span>
+              )}
+              {selectedCategory !== 'All' && !searchTerm && ( // Show category only if no search term
+                  <span> in <span className="font-semibold text-primary">{selectedCategory}</span></span>
               )}
            </div>
            <div className="flex items-center gap-2 w-full sm:w-auto justify-center sm:justify-end">
@@ -125,7 +112,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
                  <SelectValue placeholder="Sort products" />
                </SelectTrigger>
                <SelectContent>
-                 <SelectItem value="default">Default</SelectItem>
+                 <SelectItem value="default">Featured</SelectItem> {/* Changed Default to Featured */}
                  <SelectItem value="popularity">Popularity</SelectItem>
                  <SelectItem value="price-asc">Price: Low to High</SelectItem>
                  <SelectItem value="price-desc">Price: High to Low</SelectItem>
@@ -161,11 +148,11 @@ export default function ProductGrid({ products }: ProductGridProps) {
               animate={{ opacity: 1 }}
               className="col-span-full text-center text-muted-foreground py-16 text-lg" // Increased padding and text size
             >
-              {searchTerm || selectedCategory !== 'All' ? `No products found matching your criteria.` : "No products available."}
+              {searchTerm || selectedCategory !== 'All' ? `No products found matching your criteria.` : "No products available in this category."}
             </motion.p>
           )}
         </AnimatePresence>
       </motion.div>
-    </div>
+    </>
   );
 }
