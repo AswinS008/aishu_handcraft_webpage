@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}> {/* Added suppressHydrationWarning */}
       <body className={`${poppins.className} antialiased flex flex-col min-h-screen bg-background text-foreground`}>
         {/* Header is now a Client Component, no Suspense needed here unless a parent Server Component passes searchParams */}
         <Header />
